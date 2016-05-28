@@ -1,0 +1,83 @@
+html {
+    font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial;
+    color: #19284f;
+    font-size: 150%;
+}
+
+body {
+    background-color:  #240005;
+}
+
+#gameFrame {
+    background: url('grafika/dekryptor2_tlo.jpg');
+    position: relative;
+    height: 927px;
+    width: 1000px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#list {
+    width: 450px;
+    position: absolute;
+    top: 117px;
+    right: 77px;
+}
+
+.tile {
+    position: absolute;
+}
+
+#dzwignia {
+    background: url('grafika/przyciski_dzwignia1.png');
+    position: absolute;
+    width: 76px;
+    height: 129px;
+    bottom: 142px;
+    right: 112px;
+}
+
+#przycisk {
+    background: url('grafika/przyciski_dzwignia3r.png');
+    position: absolute;
+    width: 51px;
+    height: 51px;
+    top: 645px;
+    right: 126px;
+    /*background-repeat: no-repeat;*/
+}
+
+.poleTekstowe {
+    background: url('grafika/poletekstowe.png');
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 300px;
+    height: 100px;
+}
+
+#klucz {
+    background-size: 100%;
+    bottom: 254px;
+    left: 75px;
+    text-align: center;
+    line-height: 90px;
+}
+
+#wiadomosc {
+    background-size: 100%;
+    bottom: 175px;
+    left: 75px;
+    text-align: center;
+    line-height: 90px;
+}
+
+#table2Print {
+    background: url('grafika/poletekstowe.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    position: absolute;
+    width: 400px;
+    height: 200px;
+    bottom: 68px;
+    left: 397px;
+}

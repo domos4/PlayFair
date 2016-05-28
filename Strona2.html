@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PlayFair</title>
+    <script type="text/javascript" src="Logika.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="Styles.css">
+</head>
+<body>
+
+<div id="gameFrame">
+    <div id="list"></div>
+    <button class="button" id="button1">START</button>
+    <button class="button" id="button2">sprawdz szyfrogram</button>
+    <button>przycisk</button>
+    <div id="dzwignia"></div>
+    <div id="przycisk"></div>
+    <div class = "poleTekstowe" id="klucz"></div>
+    <div class = "poleTekstowe" id="wiadomosc"></div>
+    <div id="table2Print"></div>
+
+</div>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/utils/Draggable.min.js'></script>
+<script src="Draggable.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $("#button1").click(function () {
+//            generateRandomKlucz();
+//            generateRandomWiadomosc();
+//            setTable2($('#wiadomosc').val());
+            freeze();
+        });
+        $("#button2").click(function () {
+//            sprawdzSzyfrogram($('#wiadomosc').val());
+            alert($('#wiadomosc').val());
+        });
+//        $("#przycisk").click(function(){
+//            ruchDzwigni(this);
+//        });
+        var k = 0;
+        var move = 97;
+        $('#przycisk').click(function () {
+            $(this).animate({
+                top: "+=" + move,
+            }, {
+                duration: 1000,
+                complete: function() {
+                    k = dzwignia(k);
+                }
+            });
+            move = -move;
+        });
+    });
+
+</script>
+
+
+</body>
+
+
+</html>
