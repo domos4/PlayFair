@@ -42,7 +42,9 @@ function init() {
             createTile(i);
         }
     }
+
 }
+
 
 
 // ========================================================================
@@ -139,7 +141,7 @@ function createTile(i) {
     function onPress() {
 
         lastX = this.x;
-        tile.isDragging = true;
+        tile.isDragging = false;
         tile.lastIndex = tile.index;
 
         TweenLite.to(element, 0.2, {
@@ -314,8 +316,4 @@ function layoutInvalidated(rowToUpdate) {
         height = rowCount * gutterStep + (++row * rowSize);
         timeline.to($list, 0.2, {height: height}, "reflow");
     }
-}
-
-function freeze() {
-    Draggable.disable($('.tile'));
 }

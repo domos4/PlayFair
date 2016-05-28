@@ -17,7 +17,7 @@ body {
     margin-right:auto;
 }
 
-#list {
+.list {
     width: 450px;
     position: absolute;
     top: 117px;
@@ -25,6 +25,10 @@ body {
 }
 
 .tile {
+    position: absolute;
+}
+
+.tileFreeze {
     position: absolute;
 }
 
@@ -39,6 +43,8 @@ body {
 
 #przycisk {
     background: url('grafika/przyciski_dzwignia3r.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
     position: absolute;
     width: 51px;
     height: 51px;
