@@ -34,7 +34,7 @@
 
     $(document).ready(function () {
 
-        createBoardFreeze();
+//        createBoardFreeze();
 
         $("#button1").click(function () {
 //            generateRandomKlucz();
@@ -42,13 +42,17 @@
 //            setTable2($('#wiadomosc').val());
             freeze();
         });
+
         $("#button2").click(function () {
 //            sprawdzSzyfrogram($('#wiadomosc').val());
-            alert($('#wiadomosc').val());
+//            alert($('#wiadomosc').val());
+
+            var id = "#button1";
+            $(id).css('height', '500px');
+
+
         });
-//        $("#przycisk").click(function(){
-//            ruchDzwigni(this);
-//        });
+
         var k = 0;
         var move = 97;
         $('#przycisk').click(function () {
@@ -62,6 +66,7 @@
             });
             move = -move;
         });
+
     });
 
 </script>
