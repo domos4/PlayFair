@@ -30,6 +30,9 @@ body {
 
 .tileFreeze {
     position: absolute;
+    -webkit-box-shadow:0 0 20px #0effae;
+    -moz-box-shadow: 0 0 20px blue;
+    box-shadow:0 0 20px blue;
 }
 
 #dzwignia {

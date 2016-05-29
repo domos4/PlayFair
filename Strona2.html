@@ -47,12 +47,11 @@
 //            sprawdzSzyfrogram($('#wiadomosc').val());
 //            alert($('#wiadomosc').val());
 
-            var id = "#button1";
-            $(id).css('height', '500px');
-
 
         });
 
+        var klucz = generateRandomKlucz();
+        var wiadomosc = generateRandomWiadomosc();
         var k = 0;
         var move = 97;
         $('#przycisk').click(function () {
@@ -61,7 +60,7 @@
             }, {
                 duration: 1000,
                 complete: function() {
-                    k = dzwignia(k);
+                    k = dzwignia(k, klucz, wiadomosc);
                 }
             });
             move = -move;

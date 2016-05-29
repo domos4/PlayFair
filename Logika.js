@@ -309,7 +309,7 @@ function decode(klucz, szyfrogram) {
     return wiadomosc;
 }
 
-function getOrder() {
+function getOrder(config) {
     var orderList = [];
     for (var i = 0; i < 25; i++) {
         var id = "#tile" + (i + 1);
@@ -326,7 +326,7 @@ function getOrder() {
     return myTable;
 }
 
-function generateRandomKlucz() {
+function generateRandomKlucz() {    //generuje losowy klucz z listy
     var list = [];
     list.push('ala');
     list.push('ma');
@@ -340,12 +340,10 @@ function generateRandomKlucz() {
 
     var klucz = list[k];
     klucz = klucz.toUpperCase();
-    //document.getElementById("klucz").value = klucz;
-    $('#klucz').text(klucz);
     return klucz;
-}   //generuje losowy klucz z listy
+}
 
-function generateRandomWiadomosc() {
+function generateRandomWiadomosc() {    //generuje losową wiadomość z listy
     var list = [];
     list.push('archipelag');
     list.push('matematyka');
@@ -359,21 +357,23 @@ function generateRandomWiadomosc() {
 
     var wiadomosc = list[k];
     wiadomosc = poprawWiadomosc(wiadomosc);
-    //document.getElementById("wiadomosc").value = wiadomosc;
-    $('#wiadomosc').text(wiadomosc);
     return wiadomosc;
-}   //generuje losową wiadomość z listy
+}
 
-function dzwignia(k) {
+function dzwignia(k, klucz, wiadomosc) {
     if (k == 0) {
-        generateRandomKlucz();
-        generateRandomWiadomosc();
-        setTable2($('#wiadomosc').val());
+        $('#klucz').text(klucz);
+        $('#wiadomosc').text(wiadomosc);
         return ++k;
     }
-    else if ((k == 1) && checkTable($('#klucz').val()))
+    else if ((k == 1) && checkTable(klucz)) {
+        freeze();
+        setTable2(wiadomosc);
         return ++k;
-    else if ((k == 2) && sprawdzSzyfrogram($('#wiadomosc').val()))
+    }
+    else if ((k == 2) && sprawdzSzyfrogram(wiadomosc)) {
+        alert('wygrales');
         return ++k;
+    }
     return k;
 }

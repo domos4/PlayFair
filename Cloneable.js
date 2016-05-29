@@ -1,14 +1,13 @@
 var $list2 = $('#list2');
 
 function freeze() {
-    $(".tile").remove();
-    // $('#list2').show();
-    createBoardFreeze();
-}
 
-function createBoardFreeze() {
+    if($('#tile1').index() == -1)
+        return;
 
     var list = getOrder();
+    $(".tile").remove();
+
     for (var i=0; i<list.length; i++) {
         list[i] = list[i].charCodeAt(0) - 65 + 1;
         if (list[i] > 9)
@@ -47,6 +46,8 @@ function createBoardFreeze() {
     $(listID[22]).css('transform','translate3d(161.2px, 322.4px, 0px)');
     $(listID[23]).css('transform','translate3d(241.8px, 322.4px, 0px)');
     $(listID[24]).css('transform','translate3d(322.4px, 322.4px, 0px)');
+
+    // $('.list').css('box-shadow','0px 0px 5px #fff');
 }
 
 function createTileFreeze(i) {
