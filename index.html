@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PlayFair</title>
+    <script type="text/javascript" src="Logika.js"></script>
+    <link rel="stylesheet" type="text/css" href="Styles.css">
+
+    <script src="lib/jquery-1.12.4.js"></script>
+    <script src="lib/jquery-ui-1.11.4/jquery-ui.js"></script>
+    <script src="lib/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+    <script src="lib/jquery-animate-shadow-min.js"></script>
+
+</head>
+<body>
+
+<div id="gameFrame">
+    <div class="list" id="list"></div>
+    <div class="list" id="list2"></div>
+    <button class="button" id="button1">BUTTON1</button>
+    <button class="button" id="button2">BUTTON2</button>
+    <div id="dzwignia"></div>
+    <div id="przycisk"></div>
+    <div class="poleTekstowe" id="klucz"></div>
+    <div class="poleTekstowe" id="wiadomosc"></div>
+    <div id="table2Print"></div>
+    <div id="dropArea"></div>
+</div>
+
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/utils/Draggable.min.js'></script>
+<script src="Draggable.js"></script>
+<script src="Cloneable.js"></script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        for (var i = 1; i <= 12; i++) {
+            var element = $('<div></div>').appendTo('#dropArea').droppable({
+                accept: '#dropArea',
+                hoverClass: 'hovered',
+//                drop: handleCardDrop
+            });
+            element.attr({
+                id: 'dropSlot' + i,
+                class: 'dropSlot'
+            });
+        }
+
+
+        $("#button1").click(function () {
+            freeze();
+
+            $('#dropArea').droppable({
+                drop: handleTileDrop
+            });
+        });
+
+        $("#button2").click(function () {
+
+
+
+
+
+
+        });
+
+
+        var klucz = generateRandomKlucz();
+        var wiadomosc = generateRandomWiadomosc();
+        var k = 0;
+        var move = 97;
+        $('#przycisk').click(function () {
+            $(this).animate({
+                top: "+=" + move
+            }, {
+                duration: 1000,
+                start: function () {
+                    $(this).animate({
+                        width: '55px',
+                        height: '55px',
+//                        right: '124px'
+                    }, {
+                        duration: 500,
+                        queue: false,
+                        complete: function () {
+                            $(this).animate({
+                                width: '51px',
+                                height: '51px',
+//                                right: '126px'
+                            }, {
+                                duration: 500,
+                                queue: false
+                            });
+                        }
+                    });
+                },
+                complete: function () {
+
+                    k = dzwignia(k, klucz, wiadomosc);
+                }
+            });
+            move = -move;
+        });
+
+    });
+
+</script>
+
+
+</body>
+</html>

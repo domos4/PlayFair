@@ -1,7 +1,8 @@
 html {
     font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial;
-    color: #19284f;
+    color: #D1AF93;
     font-size: 150%;
+    font-weight: bold;
 }
 
 body {
@@ -30,9 +31,10 @@ body {
 
 .tileFreeze {
     position: absolute;
-    -webkit-box-shadow:0 0 20px #0effae;
-    -moz-box-shadow: 0 0 20px blue;
-    box-shadow:0 0 20px blue;
+    height: 69px;
+    width: 69px;
+    box-shadow: 0 0 0px #08a40f;
+    border-radius: 8px;
 }
 
 #dzwignia {
@@ -40,25 +42,26 @@ body {
     position: absolute;
     width: 76px;
     height: 129px;
-    bottom: 142px;
-    right: 112px;
+    /*bottom: 142px;*/
+    /*right: 112px;*/
+    top: 127px;
+    right: 44px;
 }
 
 #przycisk {
-    background: url('grafika/przyciski_dzwignia3r.png');
-    background-repeat: no-repeat;
+    background: url('grafika/przyciski_dzwignia3r.png') no-repeat;
     background-size: 100%;
     position: absolute;
     width: 51px;
     height: 51px;
-    top: 645px;
-    right: 126px;
-    /*background-repeat: no-repeat;*/
+    /*top: 645px;*/
+    /*right: 126px;*/
+    top: 121px;
+    right: 56px;
 }
 
 .poleTekstowe {
-    background: url('grafika/poletekstowe.png');
-    background-repeat: no-repeat;
+    background: url('grafika/poletekstowe.png') no-repeat;
     position: absolute;
     width: 300px;
     height: 100px;
@@ -81,12 +84,32 @@ body {
 }
 
 #table2Print {
-    background: url('grafika/poletekstowe.png');
-    background-repeat: no-repeat;
+    background: url('grafika/poletekstowe.png') no-repeat;
     background-size: 100%;
     position: absolute;
     width: 400px;
     height: 200px;
     bottom: 68px;
     left: 397px;
+    display: none;
+}
+
+#dropArea {
+    /*background: red;*/
+    position: absolute;
+    width: 500px;
+    height: 200px;
+    bottom: 85px;
+    left: 413px;
+}
+
+
+.dropSlot {
+    float: left;
+    width: 69px;
+    height: 69px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    margin: 4px 4px 4px 4px;
+    background: transparent;
 }

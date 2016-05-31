@@ -2,9 +2,9 @@
 //Forked from: http://codepen.io/osublake/pen/RNLdpz/
 
 // GRID OPTIONS
-var rowSize = 75;
-var colSize = 75;
-var gutter = 7;     // Spacing between tiles
+var rowSize = 69;
+var colSize = 69;
+var gutter = 14.5;     // Spacing between tiles
 var numTiles = 25;    // Number of tiles to initially populate the grid with
 var threshold = "50%"; // This is amount of overlap between tiles needed to detect a collision
 

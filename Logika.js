@@ -347,11 +347,7 @@ function generateRandomWiadomosc() {    //generuje losową wiadomość z listy
     var list = [];
     list.push('archipelag');
     list.push('matematyka');
-    list.push('sowa');
-    list.push('drzewo');
-    list.push('pies');
-    list.push('szafa');
-
+    //hipoteza, dowód, twierdzenia, wyspa logiki, euler, gauss,
     var n = list.length;
     var k = Math.floor((Math.random() * n));
 
@@ -376,4 +372,23 @@ function dzwignia(k, klucz, wiadomosc) {
         return ++k;
     }
     return k;
+
+    /*
+
+    1. losujemy klucz i wiadomość z klasy pierwszej - łatwej
+    2. użytkownik ustawia kafle i ciągnie dźwignię
+    3. kafle zamarzają, można je teraz przeciągać do dropArea
+    4. użytkownik uskłąda szyfrogram i pociąga dźwignię
+    5. kafle w dropArea podświetlają się na zielono lub czerwono i
+            losowana jest kolejna para klucz-wiadomość, tym razem z klasy drugiej - trudnej
+    6. itd
+    7. do samo tylko dwa szyfrogramy do odkodowania
+    8. na koniec podliczane są punkty za te cztery rzeczy.
+
+     */
+    /*
+
+    wiadomość i klucz najpierw pokazują się normalnie ze spacjami i tak dalej a potem dopiero jak już trzeba kodować to WYSKALOGIKIX
+
+     */
 }
