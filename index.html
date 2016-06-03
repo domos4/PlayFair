@@ -37,25 +37,22 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        for (var i = 1; i <= 12; i++) {
-            var element = $('<div></div>').appendTo('#dropArea').droppable({
-                accept: '#dropArea',
-                hoverClass: 'hovered',
-//                drop: handleCardDrop
-            });
-            element.attr({
-                id: 'dropSlot' + i,
-                class: 'dropSlot'
-            });
-        }
+
 
 
         $("#button1").click(function () {
             freeze();
-
-            $('#dropArea').droppable({
-                drop: handleTileDrop
-            });
+            for (var i = 1; i <= 12; i++) {
+                var element = $('<div></div>').appendTo('#dropArea').droppable({
+                    accept: '.tileFreeze',
+                    hoverClass: 'hovered',
+                    drop: handleTileDrop
+                });
+                element.attr({
+                    id: 'dropSlot' + i,
+                    class: 'dropSlot'
+                });
+            }
         });
 
         $("#button2").click(function () {

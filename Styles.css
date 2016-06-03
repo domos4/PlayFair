@@ -108,8 +108,12 @@ body {
     float: left;
     width: 69px;
     height: 69px;
-    border: 2px solid #333;
+    /*border: 2px solid #333;*/
     border-radius: 8px;
     margin: 4px 4px 4px 4px;
     background: transparent;
+}
+
+.hovered {
+    background: rgba(8,164,15,0.15);
 }
