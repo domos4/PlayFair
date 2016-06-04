@@ -1,4 +1,7 @@
-
+var zakodowanaWiadomosc;
+var tablica;
+var wylosowanyKlucz;
+var wylosowanaWiadomosc;
 
 function setTable() {   //tworzy tabelę z polami do wprowadzania liter
 
@@ -47,7 +50,7 @@ function fillAll() {    // uzupełnia tabelę losowymi literami
     }
 }
 
-function poprawKlucz(klucz){    //usuwa powtarzające się litery z klucza
+function poprawKlucz(klucz) {    //usuwa powtarzające się litery z klucza
     klucz = klucz.toUpperCase();    //same wielkie litery
     klucz = klucz.replace(/ /g, "");    //wywala spacje
     document.getElementById('klucz').value = klucz; //wstawia na miejsce klucza na stronie poprawiony klucz
@@ -102,7 +105,8 @@ function poprawAlfabet(klucz) { //zwraca alfabet bez tych liter, które są w kl
     return alfabet;
 }
 
-function poprawWiadomosc(wiadomosc) {   //wstawia X (ew. Q) pomiędzy dwie takie same litery i X (lub Q) na koneic jak nieparzyście
+function poprawWiadomosc() {   //wstawia X (ew. Q) pomiędzy dwie takie same litery i X (lub Q) na koneic jak nieparzyście
+    var wiadomosc = wylosowanaWiadomosc;
     wiadomosc = wiadomosc.toUpperCase()
     wiadomosc = wiadomosc.replace(/J/g, "I");
     wiadomosc = wiadomosc.replace(/ /g, "");
@@ -129,18 +133,12 @@ function poprawWiadomosc(wiadomosc) {   //wstawia X (ew. Q) pomiędzy dwie takie
         else
             wiadomosc += "Q";
     }
-    return wiadomosc;
+    wylosowanaWiadomosc = wiadomosc;
 }
 
-function encode(wiadomosc) {    //szyfruje wiadomość
-    var myTable = [];
-    //for(var i=0; i<25; i++) {
-    //    var id = "myTable" + (i+1);
-    //    myTable[i] = document.getElementById(id).value;
-    //    if(myTable[i] == "I/J")
-    //        myTable[i] = "I";
-    //}
-    myTable = getOrder();
+function encode() {    //szyfruje wiadomość
+    var wiadomosc = wylosowanaWiadomosc;
+    var myTable = tablica;
     var wiadomoscIndeksy = [];
     for (var i = 0; i < wiadomosc.length; i++) {
         for (var j = 0; j < 25; j++) {
@@ -164,10 +162,10 @@ function encode(wiadomosc) {    //szyfruje wiadomość
             szyfrogram += myTable[(wiadomoscIndeksy[i + 1] + wiadomoscIndeksy[i] - wiadomoscIndeksy[i + 1]) % 5 + 5 * Math.floor(wiadomoscIndeksy[i + 1] / 5)];
         }
     }
-    for (var i = 2; i < szyfrogram.length; i += 3) {
-        szyfrogram = szyfrogram.substring(0, i) + " " + szyfrogram.substring(i);
-    }
-    return szyfrogram;
+    // for (var i = 2; i < szyfrogram.length; i += 3) {
+    //     szyfrogram = szyfrogram.substring(0, i) + " " + szyfrogram.substring(i);
+    // }
+    zakodowanaWiadomosc = szyfrogram;
 }
 
 function encodeAll(klucz, wiadomosc) {
@@ -192,10 +190,12 @@ function encodeAll(klucz, wiadomosc) {
 
 }
 
-function checkTable(klucz) {    //sprawdza czy wprowadzaono dobre litery
+function checkTable() {    //sprawdza czy wprowadzaono dobre litery
+    var klucz = wylosowanyKlucz;
     klucz = poprawKlucz(klucz);
     var alfabet = poprawAlfabet(klucz);
     var myTable = getOrder();
+    tablica = myTable;
     //for(var i=0; i<25; i++) {
     //    var id = "myTable" + (i+1);
     //    myTable[i] = document.getElementById(id).value;
@@ -227,47 +227,31 @@ function alertCheckTable(bool) {
         alert("ŹLE");
 }
 
-function sprawdzSzyfrogram(wiadomosc) {   //sprawdza szyfrogram
-    if (checkTable(document.getElementById('klucz').value)) {
-        var n = Math.floor(wiadomosc.length / 2);
-        var szyfrogramOdczyt = "";
-        for (var i = 0, id = ""; i < n; i++) {
-            id = "my2Table" + i;
-            szyfrogramOdczyt += document.getElementById(id).value;
-        }
-        if (szyfrogramOdczyt == "") {
-            alert("PUSTO");
+function sprawdzSzyfrogram() {
+    var szyfrogram = getSzyfrogramOrder();
+    for (var i = 0; i < szyfrogram.length; i++) {
+        if (zakodowanaWiadomosc[i] !== szyfrogram[i])
             return false;
-        }
-        var szyfrogram = encode(wiadomosc);
-        szyfrogram = szyfrogram.replace(/ /g, '');
-        for (var i = 0; i < wiadomosc.length; i++) {
-            if (szyfrogram[i] != szyfrogramOdczyt[i]) {
-                alert("ŹLE");
-                return false;
-            }
-        }
-        alert("OK");
-        return true;
     }
-    alert("zła tablica");
-    return false;
+    return true;
 }
 
-function decode(klucz, szyfrogram) {
-    szyfrogram = szyfrogram.toUpperCase();
-    szyfrogram = szyfrogram.replace(/ /g, "");
-    szyfrogram = szyfrogram.replace(/J/g, "I");
-    document.getElementById('szyfrogram').value = szyfrogram;
-    klucz = poprawKlucz(klucz);
+function decode(szyfrogram) {
+    // szyfrogram = szyfrogram.toUpperCase();
+    // szyfrogram = szyfrogram.replace(/ /g, "");
+    // szyfrogram = szyfrogram.replace(/J/g, "I");
+    // document.getElementById('szyfrogram').value = szyfrogram;
 
-    var myTable = "";
-    for (var i = 0; i < klucz.length; i++)
-        myTable += klucz[i];
+    var szyfrogram = zakodowanaWiadomosc;
+    // klucz = poprawKlucz(klucz);
 
-    var alfabet = poprawAlfabet(klucz);
-    for (var i = klucz.length; i < 25; i++)
-        myTable += alfabet[i - klucz.length];
+    var myTable = tablica;
+    // for (var i = 0; i < klucz.length; i++)
+    //     myTable += klucz[i];
+    //
+    // var alfabet = poprawAlfabet(klucz);
+    // for (i = klucz.length; i < 25; i++)
+    //     myTable += alfabet[i - klucz.length];
 
     var szyfrogramIndeksy = [];
     for (var i = 0; i < szyfrogram.length; i++) {
@@ -278,7 +262,7 @@ function decode(klucz, szyfrogram) {
         }
     }
     var wiadomosc = "";
-    for (var i = 0; i < szyfrogram.length; i += 2) {
+    for (i = 0; i < szyfrogram.length; i += 2) {
         if (szyfrogramIndeksy[i] % 5 == szyfrogramIndeksy[i + 1] % 5) {
             wiadomosc += myTable[(szyfrogramIndeksy[i] + 20) % 25];
             wiadomosc += myTable[(szyfrogramIndeksy[i + 1] + 20) % 25];
@@ -292,7 +276,7 @@ function decode(klucz, szyfrogram) {
             wiadomosc += myTable[(szyfrogramIndeksy[i + 1] + szyfrogramIndeksy[i] - szyfrogramIndeksy[i + 1]) % 5 + 5 * Math.floor(szyfrogramIndeksy[i + 1] / 5)];
         }
     }
-    for (var i = 0; i < wiadomosc.length - 2; i++) {
+    for (i = 0; i < wiadomosc.length - 2; i++) {
         if (wiadomosc[i] != "X" && wiadomosc[i + 1] == "X" && wiadomosc[i + 2] == wiadomosc[i])
             wiadomosc = wiadomosc.substring(0, i + 1) + wiadomosc.substring(i + 2);
         else if (wiadomosc[i] == "X" && wiadomosc[i + 1] == "Q" && wiadomosc[i + 2] == wiadomosc[i]) {
@@ -302,14 +286,14 @@ function decode(klucz, szyfrogram) {
     if (wiadomosc.length % 2 == 0 && wiadomosc[wiadomosc.length - 1] == "X")
         wiadomosc = wiadomosc.substring(0, wiadomosc.length - 1);
     document.getElementById('wiadomosc').value = wiadomosc;
-    for (var i = 2; i < szyfrogram.length; i += 3) {
+    for (i = 2; i < szyfrogram.length; i += 3) {
         szyfrogram = szyfrogram.substring(0, i) + " " + szyfrogram.substring(i);
     }
-    document.getElementById('szyfrogram').value = szyfrogram;
+    // document.getElementById('szyfrogram').value = szyfrogram;
     return wiadomosc;
 }
 
-function getOrder(config) {
+function getOrder() {   //zwraca tablicę liter
     var orderList = [];
     for (var i = 0; i < 25; i++) {
         var id = "#tile" + (i + 1);
@@ -322,7 +306,25 @@ function getOrder(config) {
         else
             myTable[orderList[i]] = String.fromCharCode(65 + i + 1);
     }
-    //document.getElementById("pole").value = myTable;
+    return myTable;
+}
+
+function getSzyfrogramOrder() {
+    var orderList = [];
+    for (var i = 1; i <= 12; i++) {
+        var id = '#dropSlot' + i;
+        var tileIndex = $(id).data('tile');
+        orderList.push(tileIndex)
+    }
+    var myTable = [12];
+    for (i = 0; i < 12; i++) {
+        if (orderList[i] === undefined)
+            myTable[i] = undefined;
+        else if (orderList[i] <= 9)
+            myTable[i] = String.fromCharCode(65 + Number(orderList[i]) - 1);
+        else
+            myTable[i] = String.fromCharCode(65 + Number(orderList[i]));
+    }
     return myTable;
 }
 
@@ -338,36 +340,46 @@ function generateRandomKlucz() {    //generuje losowy klucz z listy
     var n = list.length;
     var k = Math.floor((Math.random() * n));
 
-    var klucz = list[k];
-    klucz = klucz.toUpperCase();
-    return klucz;
+    wylosowanyKlucz = list[k];
+    wylosowanyKlucz = wylosowanyKlucz.toUpperCase();
+    $('#klucz').text(wylosowanyKlucz);
 }
 
 function generateRandomWiadomosc() {    //generuje losową wiadomość z listy
     var list = [];
-    list.push('archipelag');
-    list.push('matematyka');
+    // list.push('archipelag');
+    // list.push('matematyka');
+    list.push('i');
     //hipoteza, dowód, twierdzenia, wyspa logiki, euler, gauss,
+
     var n = list.length;
     var k = Math.floor((Math.random() * n));
 
-    var wiadomosc = list[k];
-    wiadomosc = poprawWiadomosc(wiadomosc);
-    return wiadomosc;
+    wylosowanaWiadomosc = list[k];
+    wylosowanaWiadomosc = wylosowanaWiadomosc.toUpperCase();
+    $('#wiadomosc').text(wylosowanaWiadomosc);
 }
 
-function dzwignia(k, klucz, wiadomosc) {
+function dzwignia(k) {
     if (k == 0) {
-        $('#klucz').text(klucz);
-        $('#wiadomosc').text(wiadomosc);
+        generateRandomKlucz();
+        generateRandomWiadomosc();
+        // console.log('wylosowanaWiadomosc: ' + wylosowanaWiadomosc);
+        // console.log('wylosowanyKlucz: ' + wylosowanyKlucz);
         return ++k;
     }
-    else if ((k == 1) && checkTable(klucz)) {
+    else if ((k == 1) && checkTable()) {
+        poprawWiadomosc();
+        encode();
         freeze();
-        setTable2(wiadomosc);
+        $('#wiadomosc').text(wylosowanaWiadomosc);
+        // console.log('wylosowanaWiadomosc: ' + wylosowanaWiadomosc);
+        // console.log('wylosowanyKlucz: ' + wylosowanyKlucz);
+        // console.log('tablica: ' + tablica);
+        // console.log('zakodowanaWiadomosc: ' + zakodowanaWiadomosc);
         return ++k;
     }
-    else if ((k == 2) && sprawdzSzyfrogram(wiadomosc)) {
+    else if ((k == 2) && sprawdzSzyfrogram()) {
         alert('wygrales');
         return ++k;
     }
@@ -375,20 +387,21 @@ function dzwignia(k, klucz, wiadomosc) {
 
     /*
 
-    1. losujemy klucz i wiadomość z klasy pierwszej - łatwej
-    2. użytkownik ustawia kafle i ciągnie dźwignię
-    3. kafle zamarzają, można je teraz przeciągać do dropArea
-    4. użytkownik uskłąda szyfrogram i pociąga dźwignię
-    5. kafle w dropArea podświetlają się na zielono lub czerwono i
-            losowana jest kolejna para klucz-wiadomość, tym razem z klasy drugiej - trudnej
-    6. itd
-    7. do samo tylko dwa szyfrogramy do odkodowania
-    8. na koniec podliczane są punkty za te cztery rzeczy.
+     1. losujemy klucz i wiadomość z klasy pierwszej - łatwej
+     2. użytkownik ustawia kafle i ciągnie dźwignię
+     3. kafle zamarzają, można je teraz przeciągać do dropArea
+     4. użytkownik uskłąda szyfrogram i pociąga dźwignię
+     5. kafle w dropArea podświetlają się na zielono lub czerwono i
+     losowana jest kolejna para klucz-wiadomość, tym razem z klasy drugiej - trudnej
+     6. itd
+     7. do samo tylko dwa szyfrogramy do odkodowania
+     8. na koniec podliczane są punkty za te cztery rzeczy.
 
      */
     /*
 
-    wiadomość i klucz najpierw pokazują się normalnie ze spacjami i tak dalej a potem dopiero jak już trzeba kodować to WYSKALOGIKIX
+     wiadomość i klucz najpierw pokazują się normalnie ze spacjami i tak dalej a potem dopiero jak już trzeba kodować to WYSKALOGIKIX
 
      */
 }
+

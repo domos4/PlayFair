@@ -82,6 +82,13 @@ body {
     text-align: center;
     line-height: 90px;
 }
+#szyfrogram {
+    background-size: 100%;
+    bottom: 96px;
+    left: 75px;
+    text-align: center;
+    line-height: 90px;
+}
 
 #table2Print {
     background: url('grafika/poletekstowe.png') no-repeat;
@@ -95,12 +102,13 @@ body {
 }
 
 #dropArea {
-    /*background: red;*/
+    /*background: url('grafika/poletekstowe.png') no-repeat;*/
+    background-size: 100%;
     position: absolute;
     width: 500px;
     height: 200px;
     bottom: 85px;
-    left: 413px;
+    left: 425px;
 }
 
 
@@ -116,4 +124,5 @@ body {
 
 .hovered {
     background: rgba(8,164,15,0.15);
+    box-shadow: 0 0 50px rgba(8,164,15,0.35);
 }

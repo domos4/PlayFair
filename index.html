@@ -23,7 +23,7 @@
     <div id="przycisk"></div>
     <div class="poleTekstowe" id="klucz"></div>
     <div class="poleTekstowe" id="wiadomosc"></div>
-    <div id="table2Print"></div>
+    <div class="poleTekstowe" id="szyfrogram"></div>
     <div id="dropArea"></div>
 </div>
 
@@ -37,36 +37,29 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-
-
+        for (var i = 1; i <= 12; i++) {
+            var element = $('<div></div>').appendTo('#dropArea').data('vacant', true).droppable({
+                accept: '.tileFreeze',
+                hoverClass: 'hovered',
+                drop: handleTileDrop
+            });
+            element.attr({
+                id: 'dropSlot' + i,
+                class: 'dropSlot'
+            });
+        }
 
         $("#button1").click(function () {
             freeze();
-            for (var i = 1; i <= 12; i++) {
-                var element = $('<div></div>').appendTo('#dropArea').droppable({
-                    accept: '.tileFreeze',
-                    hoverClass: 'hovered',
-                    drop: handleTileDrop
-                });
-                element.attr({
-                    id: 'dropSlot' + i,
-                    class: 'dropSlot'
-                });
-            }
+
         });
 
         $("#button2").click(function () {
-
-
-
-
-
-
+            console.log('szyfrogram: ' + zakodowanaWiadomosc);
+            console.log('na desce leży: ' + getSzyfrogramOrder());
         });
 
 
-        var klucz = generateRandomKlucz();
-        var wiadomosc = generateRandomWiadomosc();
         var k = 0;
         var move = 97;
         $('#przycisk').click(function () {
@@ -77,16 +70,14 @@
                 start: function () {
                     $(this).animate({
                         width: '55px',
-                        height: '55px',
-//                        right: '124px'
+                        height: '55px'
                     }, {
                         duration: 500,
                         queue: false,
                         complete: function () {
                             $(this).animate({
                                 width: '51px',
-                                height: '51px',
-//                                right: '126px'
+                                height: '51px'
                             }, {
                                 duration: 500,
                                 queue: false
@@ -95,8 +86,7 @@
                     });
                 },
                 complete: function () {
-
-                    k = dzwignia(k, klucz, wiadomosc);
+                    k = dzwignia(k);
                 }
             });
             move = -move;
