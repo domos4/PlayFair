@@ -21,7 +21,9 @@ var gutterStep = null;
 
 $(window).resize(resize);
 
-init();
+$(document).ready(function() {
+    init();
+});
 
 // ========================================================================
 //  INIT

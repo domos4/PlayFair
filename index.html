@@ -50,17 +50,15 @@
         }
 
         $("#button1").click(function () {
-            freeze();
-
+//            freeze();
+            console.log('k: '+k, 'runda: '+runda);
         });
 
         $("#button2").click(function () {
-            console.log('szyfrogram: ' + zakodowanaWiadomosc);
-            console.log('na desce leży: ' + getSzyfrogramOrder());
+            resetuj();
+
         });
 
-
-        var k = 0;
         var move = 97;
         $('#przycisk').click(function () {
             $(this).animate({
@@ -86,7 +84,7 @@
                     });
                 },
                 complete: function () {
-                    k = dzwignia(k);
+                    dzwignia();
                 }
             });
             move = -move;

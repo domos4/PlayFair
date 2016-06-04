@@ -1,7 +1,9 @@
 var zakodowanaWiadomosc;
-var tablica;
+var tablica = [];
 var wylosowanyKlucz;
 var wylosowanaWiadomosc;
+var k = 0;
+var runda = 1;
 
 function setTable() {   //tworzy tabelę z polami do wprowadzania liter
 
@@ -136,7 +138,22 @@ function poprawWiadomosc() {   //wstawia X (ew. Q) pomiędzy dwie takie same lit
     wylosowanaWiadomosc = wiadomosc;
 }
 
+function zwyklaWiadomosc() {
+    var wiadomosc = wylosowanaWiadomosc;
+    for (i = 0; i < wiadomosc.length - 2; i++) {
+        if (wiadomosc[i] != "X" && wiadomosc[i + 1] == "X" && wiadomosc[i + 2] == wiadomosc[i])
+            wiadomosc = wiadomosc.substring(0, i + 1) + wiadomosc.substring(i + 2);
+        else if (wiadomosc[i] == "X" && wiadomosc[i + 1] == "Q" && wiadomosc[i + 2] == wiadomosc[i]) {
+            wiadomosc = wiadomosc.substring(0, i + 1) + wiadomosc.substring(i + 2);
+        }
+    }
+    if (wiadomosc.length % 2 == 0 && wiadomosc[wiadomosc.length - 1] == "X")
+        wiadomosc = wiadomosc.substring(0, wiadomosc.length - 1);
+    wylosowanaWiadomosc = wiadomosc;
+}
+
 function encode() {    //szyfruje wiadomość
+    poprawWiadomosc();
     var wiadomosc = wylosowanaWiadomosc;
     var myTable = tablica;
     var wiadomoscIndeksy = [];
@@ -168,25 +185,20 @@ function encode() {    //szyfruje wiadomość
     zakodowanaWiadomosc = szyfrogram;
 }
 
-function encodeAll(klucz, wiadomosc) {
+function encodeAll() {
+    var klucz = wylosowanyKlucz;
     klucz = poprawKlucz(klucz);
-    for (var i = 0, id = ""; i < klucz.length; i++) {
-        id = "myTable" + (i + 1);
-        document.getElementById(id).value = klucz[i];
-        autoCorrect(klucz[i], id, true);
+
+    for (var i = 0; i < klucz.length; i++) {
+        tablica.push(klucz[i]);
     }
 
     var alfabet = poprawAlfabet(klucz);
-    for (var i = klucz.length; i < 25; i++) {
-        id = "myTable" + (i + 1);
-        document.getElementById(id).value = alfabet[i - klucz.length];
-        autoCorrect(alfabet[i - klucz.length], id, true);
+    for (i = 0; i < 25-klucz.length; i++) {
+        tablica.push(alfabet[i]);
     }
 
-    wiadomosc = poprawWiadomosc(wiadomosc);
-    document.getElementById('wiadomosc').value = wiadomosc;
-    setTable2(wiadomosc);
-    document.getElementById('szyfrogram').value = encode(wiadomosc);
+    encode();
 
 }
 
@@ -195,7 +207,6 @@ function checkTable() {    //sprawdza czy wprowadzaono dobre litery
     klucz = poprawKlucz(klucz);
     var alfabet = poprawAlfabet(klucz);
     var myTable = getOrder();
-    tablica = myTable;
     //for(var i=0; i<25; i++) {
     //    var id = "myTable" + (i+1);
     //    myTable[i] = document.getElementById(id).value;
@@ -357,51 +368,85 @@ function generateRandomWiadomosc() {    //generuje losową wiadomość z listy
 
     wylosowanaWiadomosc = list[k];
     wylosowanaWiadomosc = wylosowanaWiadomosc.toUpperCase();
-    $('#wiadomosc').text(wylosowanaWiadomosc);
 }
 
-function dzwignia(k) {
+function resetuj() {
+    // $('.tileFreeze').animate({
+    //     opacity: 0
+    // }, {
+    //     duration: 2000,
+    //     start: function() {
+    //         console.log("poczatek");
+    //     },
+    //     complete: function () {
+    //         console.log('koniec');
+    //         $('.tileFreeze').remove();
+    //         // $(document).ready(function () {
+    //         //     init();
+    //         // });
+    //     }
+    // });
+    $('.tileFreeze').remove();
+    $(document).ready(function () {
+        init();
+    });
+    ++runda;
+}
+
+function dzwignia() {
     if (k == 0) {
+        if(zakodowanaWiadomosc !== undefined)
+            return;
         generateRandomKlucz();
         generateRandomWiadomosc();
+        if(runda == 1 || runda == 2) {
+            $('#wiadomosc').text(wylosowanaWiadomosc);
+            encodeAll();
+        }
+        else {
+            encodeAll();
+            $('#szyfrogram').text(zakodowanaWiadomosc);
+        }
         // console.log('wylosowanaWiadomosc: ' + wylosowanaWiadomosc);
         // console.log('wylosowanyKlucz: ' + wylosowanyKlucz);
-        return ++k;
+        ++k;
     }
     else if ((k == 1) && checkTable()) {
-        poprawWiadomosc();
-        encode();
         freeze();
         $('#wiadomosc').text(wylosowanaWiadomosc);
-        // console.log('wylosowanaWiadomosc: ' + wylosowanaWiadomosc);
-        // console.log('wylosowanyKlucz: ' + wylosowanyKlucz);
-        // console.log('tablica: ' + tablica);
-        // console.log('zakodowanaWiadomosc: ' + zakodowanaWiadomosc);
-        return ++k;
+        console.log('wylosowanaWiadomosc: ' + wylosowanaWiadomosc);
+        console.log('wylosowanyKlucz: ' + wylosowanyKlucz);
+        console.log('tablica: ' + tablica);
+        console.log('zakodowanaWiadomosc: ' + zakodowanaWiadomosc);
+        ++k;
     }
     else if ((k == 2) && sprawdzSzyfrogram()) {
         alert('wygrales');
-        return ++k;
+        ++k;
     }
-    return k;
-
-    /*
-
-     1. losujemy klucz i wiadomość z klasy pierwszej - łatwej
-     2. użytkownik ustawia kafle i ciągnie dźwignię
-     3. kafle zamarzają, można je teraz przeciągać do dropArea
-     4. użytkownik uskłąda szyfrogram i pociąga dźwignię
-     5. kafle w dropArea podświetlają się na zielono lub czerwono i
-     losowana jest kolejna para klucz-wiadomość, tym razem z klasy drugiej - trudnej
-     6. itd
-     7. do samo tylko dwa szyfrogramy do odkodowania
-     8. na koniec podliczane są punkty za te cztery rzeczy.
-
-     */
-    /*
-
-     wiadomość i klucz najpierw pokazują się normalnie ze spacjami i tak dalej a potem dopiero jak już trzeba kodować to WYSKALOGIKIX
-
-     */
+    else if (k == 3) {
+        resetuj();
+        k = 0;
+        dzwignia(k);
+    }
 }
+
+/*
+
+ 1. losujemy klucz i wiadomość z klasy pierwszej - łatwej
+ 2. użytkownik ustawia kafle i ciągnie dźwignię
+ 3. kafle zamarzają, można je teraz przeciągać do dropArea
+ 4. użytkownik uskłąda szyfrogram i pociąga dźwignię
+ 5. kafle w dropArea podświetlają się na zielono lub czerwono i
+ losowana jest kolejna para klucz-wiadomość, tym razem z klasy drugiej - trudnej
+ 6. itd
+ 7. do samo tylko dwa szyfrogramy do odkodowania
+ 8. na koniec podliczane są punkty za te cztery rzeczy.
+
+ */
+/*
+
+ wiadomość i klucz najpierw pokazują się normalnie ze spacjami i tak dalej a potem dopiero jak już trzeba kodować to WYSPALOGIKIX
+
+ */
 
