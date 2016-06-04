@@ -5,53 +5,6 @@ var wylosowanaWiadomosc;
 var k = 0;
 var runda = 1;
 
-function setTable() {   //tworzy tabelę z polami do wprowadzania liter
-
-    var myTable = "<table>";
-    for (var i = 0; i < 5; i++) {
-        myTable += "<tr>";
-        for (var j = 0; j < 5; j++) {
-            myTable += "<td><input type='text' onchange='autoCorrect(this.value,this.id,true)' " +
-                "id='myTable" + (5 * i + j + 1) + "' size='1' maxlength='1' pattern='[A-Za-z]{1}|[A-Za-z]\/[A-Za-z]{1}' required></td>";
-        }
-        myTable += "</tr>";
-    }
-    myTable += "</table>";
-    //myTable += "<input type='submit'/></form>";
-    document.getElementById('tablePrint').innerHTML = myTable;
-}
-
-function setTable2(wiadomosc) { //tworzy tabelę z polami do wprowadzenia zaszyfrowanej wiadomości
-    var myTable = "<form><table><tr>";
-    var n = Math.ceil(wiadomosc.length / 2);
-    for (var i = 0; i < n; i++) {
-        myTable += "<td><input type='text' onchange='autoCorrect(this.value,this.id,false)' " +
-            "id='my2Table" + i + "' size='1' maxlength='2' pattern='[A-Za-z]{1,2}' required></td>";
-    }
-    myTable += "</tr></table></form>";
-    document.getElementById('table2Print').innerHTML = myTable;
-}
-
-function autoCorrect(value, id, bool) { //poprawia żeby były same wielkie litery
-    if (bool && (value.toUpperCase() == "I" || value.toUpperCase() == "J")) {
-        document.getElementById(id).value = "I/J";
-    }
-    else {
-        value = value.toUpperCase();
-        document.getElementById(id).value = value;
-    }
-
-}
-
-function fillAll() {    // uzupełnia tabelę losowymi literami
-    for (var i = 0; i < 25; i++) {
-        var id = "myTable" + (i + 1);
-        var value = String.fromCharCode(97 + Math.floor(Math.random() * 26));
-        document.getElementById(id).value = value;
-        autoCorrect(value, id, true);
-    }
-}
-
 function poprawKlucz(klucz) {    //usuwa powtarzające się litery z klucza
     klucz = klucz.toUpperCase();    //same wielkie litery
     klucz = klucz.replace(/ /g, "");    //wywala spacje
@@ -240,11 +193,20 @@ function alertCheckTable(bool) {
 
 function sprawdzSzyfrogram() {
     var szyfrogram = getSzyfrogramOrder();
-    for (var i = 0; i < szyfrogram.length; i++) {
-        if (zakodowanaWiadomosc[i] !== szyfrogram[i])
-            return false;
+    if (runda == 1 || runda == 2) {
+        for (var i = 0; i < szyfrogram.length; i++) {
+            if (zakodowanaWiadomosc[i] !== szyfrogram[i])
+                return false;
+        }
+        return true;
     }
-    return true;
+    else {
+        for (var i = 0; i < szyfrogram.length; i++) {
+            if (wylosowanaWiadomosc[i] !== szyfrogram[i])
+                return false;
+        }
+        return true;
+    }
 }
 
 function decode(szyfrogram) {
@@ -329,7 +291,7 @@ function getSzyfrogramOrder() {
     }
     var myTable = [12];
     for (i = 0; i < 12; i++) {
-        if (orderList[i] === undefined)
+        if (orderList[i] === null)
             myTable[i] = undefined;
         else if (orderList[i] <= 9)
             myTable[i] = String.fromCharCode(65 + Number(orderList[i]) - 1);
@@ -360,7 +322,7 @@ function generateRandomWiadomosc() {    //generuje losową wiadomość z listy
     var list = [];
     // list.push('archipelag');
     // list.push('matematyka');
-    list.push('i');
+    list.push('ib');
     //hipoteza, dowód, twierdzenia, wyspa logiki, euler, gauss,
 
     var n = list.length;
@@ -390,7 +352,20 @@ function resetuj() {
     $(document).ready(function () {
         init();
     });
+    k = 0;
     ++runda;
+    wylosowanaWiadomosc = undefined;
+    wylosowanyKlucz = undefined;
+    zakodowanaWiadomosc = undefined;
+    tablica = [];
+    $('#klucz').text('');
+    $('#wiadomosc').text('');
+    $('#szyfrogram').text('');
+    setDropSlotsFree();
+}
+
+function koniec() {
+    alert('koniec gry');
 }
 
 function dzwignia() {
@@ -413,11 +388,8 @@ function dzwignia() {
     }
     else if ((k == 1) && checkTable()) {
         freeze();
-        $('#wiadomosc').text(wylosowanaWiadomosc);
-        console.log('wylosowanaWiadomosc: ' + wylosowanaWiadomosc);
-        console.log('wylosowanyKlucz: ' + wylosowanyKlucz);
-        console.log('tablica: ' + tablica);
-        console.log('zakodowanaWiadomosc: ' + zakodowanaWiadomosc);
+        if(runda == 1 || runda == 2)
+            $('#wiadomosc').text(wylosowanaWiadomosc);
         ++k;
     }
     else if ((k == 2) && sprawdzSzyfrogram()) {
@@ -426,8 +398,10 @@ function dzwignia() {
     }
     else if (k == 3) {
         resetuj();
-        k = 0;
-        dzwignia(k);
+        if (runda < 5)
+            dzwignia(k);
+        else
+            koniec();
     }
 }
 

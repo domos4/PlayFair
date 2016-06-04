@@ -19,6 +19,7 @@
     <div class="list" id="list2"></div>
     <button class="button" id="button1">BUTTON1</button>
     <button class="button" id="button2">BUTTON2</button>
+    <button class="button" id="button3">BUTTON3</button>
     <div id="dzwignia"></div>
     <div id="przycisk"></div>
     <div class="poleTekstowe" id="klucz"></div>
@@ -37,27 +38,27 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        for (var i = 1; i <= 12; i++) {
-            var element = $('<div></div>').appendTo('#dropArea').data('vacant', true).droppable({
-                accept: '.tileFreeze',
-                hoverClass: 'hovered',
-                drop: handleTileDrop
-            });
-            element.attr({
-                id: 'dropSlot' + i,
-                class: 'dropSlot'
-            });
-        }
 
         $("#button1").click(function () {
-//            freeze();
             console.log('k: '+k, 'runda: '+runda);
+            console.log('wylosowanaWiadomosc: ' + wylosowanaWiadomosc);
+            console.log('wylosowanyKlucz: ' + wylosowanyKlucz);
+            console.log('tablica: ' + tablica);
+            console.log('zakodowanaWiadomosc: ' + zakodowanaWiadomosc);
+            console.log('odczyt: ' + getSzyfrogramOrder());
         });
 
         $("#button2").click(function () {
             resetuj();
+            runda--;
+        });
+
+        $("#button3").click(function () {
 
         });
+
+
+        createDropSlots();
 
         var move = 97;
         $('#przycisk').click(function () {

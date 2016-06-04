@@ -16,16 +16,13 @@ function createTileFreeze(i, p) {
 
     image.src = "grafika/plytki/" + String.fromCharCode(65 + k) + ".png";
 
-    var element = $("<div><div/>").addClass("tileFreeze").addClass("tileFreeze" + (i + 1)).attr('id', 'tile'+ p +'Freeze' + (i + 1)).append(image);
+    var element = $("<div><div/>").addClass("tileFreeze").attr('id', 'tile' + p + 'Freeze' + (i + 1)).append(image);
     element.data('fromBoard', true).data('p', p).data('dropSlot', null);
 
     $list2.append(element);
 }
 
 function getPositions() {
-    if ($('#tile1').index() == -1)
-        return;
-
     var list = getOrder();
 
     for (var i = 0; i < list.length; i++) {
@@ -48,7 +45,7 @@ function getPositions() {
 
 function positionTileFreeze(i, p) {
     createTileFreeze(i, p);
-    $('.tileFreeze' + (i + 1)).draggable({
+    $('.tileFreeze').draggable({
         cursor: 'move',
         helper: 'clone',
         containment: '#gameFrame',
@@ -62,9 +59,9 @@ function positionTileFreeze(i, p) {
 }
 
 function freeze() {
-    
+
     getPositions();
-    positions.sort(function(a, b) {
+    positions.sort(function (a, b) {
         return parseInt(a.nr) - parseInt(b.nr);
     });
 
@@ -82,31 +79,58 @@ function freeze() {
             $('.tileFreeze').animate({
                 boxShadow: '0 0 0px #08a40f'
             }, {
-                duration: 2500
+                duration: 2000
             });
         }
     });
 
 }
 
+function createDropSlots() {
+    for (var i = 1; i <= 12; i++) {
+        var element = $('<div></div>').appendTo('#dropArea').data({'vacant': true, 'tile': null}).droppable({
+            accept: '.tileFreeze',
+            hoverClass: 'hovered',
+            drop: handleTileDrop
+        });
+        element.attr({
+            id: 'dropSlot' + i,
+            class: 'dropSlot'
+        });
+    }
+}
+
+function setDropSlotsFree() {
+    $('#dropArea').children().each(function () {
+        $(this).droppable('option', 'disabled', false);
+        $(this).data({
+            'vacant': true,
+            'tile': null
+        });
+    });
+    positions = [];
+}
+
 function handleTileDrop(event, ui) {
-    if($(this).data('vacant')) {    //jeśli dropSlot jest pusty
+    if ($(this).data('vacant')) {    //jeśli dropSlot jest pusty
         ui.draggable.position({of: $(this), my: 'left top', at: 'left top'});   //autocelowanie w dropSlot
         var id = ui.draggable.attr('id');
         var index = '';
-        if(!isNaN(id[id.length - 2]))
+        if (!isNaN(id[id.length - 2]))
             index += id[id.length - 2];
         index += id[id.length - 1];
         var iteration = ui.draggable.data('p');
-        if(ui.draggable.data('fromBoard'))  //jeśli klocek pochodzi z planszy, utwórz kopię na planszy
-            positionTileFreeze(index-1, iteration+1);
-        ui.draggable.data('fromBoard', false);  //teraz już nie pochodzi z planszy
-        $(this).droppable('disable');   //wyłącza możliwość dropowania klocków
-        $(this).data('vacant', false);  //dropSlot zajęty
-        if(ui.draggable.data('dropSlot') != null){
+        if (ui.draggable.data('fromBoard')) {  //jeśli klocek pochodzi z planszy, utwórz kopię na planszy
+            positionTileFreeze(index - 1, iteration + 1);
+            ui.draggable.data('fromBoard', false);  //teraz już nie pochodzi z planszy
+        }
+        else {  //jeśli nie pochodzi z planszy to pochodzi z dropSlota
             ui.draggable.data('dropSlot').droppable('option', 'disabled', false);   //odblokowuje dropSlot, z którego pochodzi klocek
             ui.draggable.data('dropSlot').data('vacant', true); //i ustawia falgę że jest pusty
+            ui.draggable.data('dropSlot').data('tile', null);  //i ustawia że nie ma do tego dropSlota przypisanego żadnego klocka
         }
+        $(this).droppable('disable');   //wyłącza możliwość dropowania klocków
+        $(this).data('vacant', false);  //dropSlot zajęty
         ui.draggable.data('dropSlot', $(this)); //przypisuje dropSlot do klocka
         $(this).data('tile', index);    //przypisuje klocek do dropSlota
     }
