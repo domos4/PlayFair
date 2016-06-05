@@ -4,6 +4,11 @@ var wylosowanyKlucz;
 var wylosowanaWiadomosc;
 var k = 0;
 var runda = 1;
+var glow = {
+    red: [],
+    green: []
+};
+var punkty = 0;
 
 function poprawKlucz(klucz) {    //usuwa powtarzające się litery z klucza
     klucz = klucz.toUpperCase();    //same wielkie litery
@@ -147,7 +152,7 @@ function encodeAll() {
     }
 
     var alfabet = poprawAlfabet(klucz);
-    for (i = 0; i < 25-klucz.length; i++) {
+    for (i = 0; i < 25 - klucz.length; i++) {
         tablica.push(alfabet[i]);
     }
 
@@ -184,13 +189,6 @@ function checkTable() {    //sprawdza czy wprowadzaono dobre litery
     return false;
 }
 
-function alertCheckTable(bool) {
-    if (bool)
-        alert("OK");
-    else
-        alert("ŹLE");
-}
-
 function sprawdzSzyfrogram() {
     var szyfrogram = getSzyfrogramOrder();
     if (runda == 1 || runda == 2) {
@@ -207,6 +205,42 @@ function sprawdzSzyfrogram() {
         }
         return true;
     }
+    // var szyfrogram = getSzyfrogramOrder();
+    // var szyfrogram2 = [];
+    // for (var i = 0; i < 12; i++) {
+    //     if (szyfrogram[i] === undefined)
+    //         continue;
+    //     var n = i;
+    //     for (var j = i; j < 12; j++) {
+    //         szyfrogram2.push(szyfrogram[i]);
+    //     }
+    //     break;
+    // }
+    // console.log('szyfrogram2: ' + szyfrgoram2);
+    // var result = true;
+    // if (runda == 1 || runda == 2) {
+    //     for (i = 0; i < zakodowanaWiadomosc.length; i++) {
+    //         var id = '#dropSlot' + n++;
+    //         if (zakodowanaWiadomosc[i] != szyfrogram2[i]) {
+    //             glow.red.push(id);
+    //             result = false;
+    //         }
+    //         else
+    //             glow.green.push($(id));
+    //     }
+    // }
+    // else {
+    //     for (i = 0; i < wylosowanaWiadomosc.length; i++) {
+    //         var id = '#dropSlot' + n++;
+    //         if (wylosowanaWiadomosc[i] != szyfrogram2[i]) {
+    //             glow.red.push($(id));
+    //             result = false;
+    //         }
+    //         else
+    //             glow.green.push($(id));
+    //     }
+    // }
+    // return result;
 }
 
 function decode(szyfrogram) {
@@ -368,13 +402,21 @@ function koniec() {
     alert('koniec gry');
 }
 
+function pokolorujKlocki() {
+    $.each(glow.red, function () {
+        $(this).css('background', 'red');
+    });
+    $.each(glow.green, function () {
+        this.css('background', 'green');
+    });
+}
 function dzwignia() {
     if (k == 0) {
-        if(zakodowanaWiadomosc !== undefined)
+        if (zakodowanaWiadomosc !== undefined)
             return;
         generateRandomKlucz();
         generateRandomWiadomosc();
-        if(runda == 1 || runda == 2) {
+        if (runda == 1 || runda == 2) {
             $('#wiadomosc').text(wylosowanaWiadomosc);
             encodeAll();
         }
@@ -388,12 +430,17 @@ function dzwignia() {
     }
     else if ((k == 1) && checkTable()) {
         freeze();
-        if(runda == 1 || runda == 2)
+        if (runda == 1 || runda == 2)
             $('#wiadomosc').text(wylosowanaWiadomosc);
         ++k;
     }
-    else if ((k == 2) && sprawdzSzyfrogram()) {
-        alert('wygrales');
+    else if (k == 2) {
+        if (sprawdzSzyfrogram()) {
+            alert('DOBRZE');
+            punkty++;
+        }
+        alert('ŹLE');
+        pokolorujKlocki();
         ++k;
     }
     else if (k == 3) {

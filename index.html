@@ -29,8 +29,8 @@
 </div>
 
 
-<script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js'></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/utils/Draggable.min.js'></script>
+<script src='lib/TweenMax-min.js'></script>
+<script src='lib/Draggable-min.js'></script>
 <script src="Draggable.js"></script>
 <script src="Cloneable.js"></script>
 
@@ -46,6 +46,8 @@
             console.log('tablica: ' + tablica);
             console.log('zakodowanaWiadomosc: ' + zakodowanaWiadomosc);
             console.log('odczyt: ' + getSzyfrogramOrder());
+            console.log('glow red: ' + glow.red);
+            console.log('glow green: ' + glow.green);
         });
 
         $("#button2").click(function () {
@@ -56,6 +58,11 @@
         $("#button3").click(function () {
 
         });
+
+        $("#button3").mouseup(function () {
+            console.log('ddhhhddhdhdh');
+        });
+
 
 
         createDropSlots();

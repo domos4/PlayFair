@@ -17,7 +17,12 @@ function createTileFreeze(i, p) {
     image.src = "grafika/plytki/" + String.fromCharCode(65 + k) + ".png";
 
     var element = $("<div><div/>").addClass("tileFreeze").attr('id', 'tile' + p + 'Freeze' + (i + 1)).append(image);
-    element.data('fromBoard', true).data('p', p).data('dropSlot', null);
+    element.data({
+        fromBoard: true,
+        dropSlot: null,
+        p: p
+    });
+
 
     $list2.append(element);
 }
@@ -49,7 +54,7 @@ function positionTileFreeze(i, p) {
         cursor: 'move',
         helper: 'clone',
         containment: '#gameFrame',
-        stack: '.tileFreeze'
+        stack: '.tileFreeze',
         // revert: true
 
     });
@@ -88,31 +93,48 @@ function freeze() {
 
 function createDropSlots() {
     for (var i = 1; i <= 12; i++) {
-        var element = $('<div></div>').appendTo('#dropArea').data({'vacant': true, 'tile': null}).droppable({
-            accept: '.tileFreeze',
-            hoverClass: 'hovered',
-            drop: handleTileDrop
-        });
-        element.attr({
+        $('<div></div>').appendTo('#dropArea').attr({
             id: 'dropSlot' + i,
             class: 'dropSlot'
+        }).data({
+            // vacant: true,
+            tile: null
+        }).droppable({
+            accept: '.tileFreeze',
+            hoverClass: 'hovered',
+            drop: handleTileDrop,
+            // out        : function(event, ui){
+            //     ui.draggable[0].mouseup(function() {
+            //     console.log('sggsgs');
+            //
+            //     });
+            // }
         });
     }
+    // $('#gameFrame').droppable({
+    //     accept: '.tileFreeze',
+    //     drop: tileRemove
+    // });
+}
+
+function tileRemove(event, ui) {
+    var id = ui.draggable[0];
+    $(id).remove();
 }
 
 function setDropSlotsFree() {
     $('#dropArea').children().each(function () {
         $(this).droppable('option', 'disabled', false);
         $(this).data({
-            'vacant': true,
-            'tile': null
+            vacant: true,
+            tile: null
         });
     });
     positions = [];
 }
 
 function handleTileDrop(event, ui) {
-    if ($(this).data('vacant')) {    //jeśli dropSlot jest pusty
+    // if ($(this).data('vacant')) {    //jeśli dropSlot jest pusty
         ui.draggable.position({of: $(this), my: 'left top', at: 'left top'});   //autocelowanie w dropSlot
         var id = ui.draggable.attr('id');
         var index = '';
@@ -126,12 +148,12 @@ function handleTileDrop(event, ui) {
         }
         else {  //jeśli nie pochodzi z planszy to pochodzi z dropSlota
             ui.draggable.data('dropSlot').droppable('option', 'disabled', false);   //odblokowuje dropSlot, z którego pochodzi klocek
-            ui.draggable.data('dropSlot').data('vacant', true); //i ustawia falgę że jest pusty
+            // ui.draggable.data('dropSlot').data('vacant', true); //i ustawia falgę że jest pusty
             ui.draggable.data('dropSlot').data('tile', null);  //i ustawia że nie ma do tego dropSlota przypisanego żadnego klocka
         }
         $(this).droppable('disable');   //wyłącza możliwość dropowania klocków
-        $(this).data('vacant', false);  //dropSlot zajęty
+        // $(this).data('vacant', false);  //dropSlot zajęty
         ui.draggable.data('dropSlot', $(this)); //przypisuje dropSlot do klocka
         $(this).data('tile', index);    //przypisuje klocek do dropSlota
-    }
+    // }
 }
