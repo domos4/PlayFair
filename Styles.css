@@ -35,6 +35,8 @@ body {
     width: 69px;
     box-shadow: 0 0 0px #08a40f;
     border-radius: 8px;
+    cursor: move;
+    z-index: 100;
 }
 
 #dzwignia {
@@ -54,10 +56,12 @@ body {
     position: absolute;
     width: 51px;
     height: 51px;
+    cursor: pointer;
     /*top: 645px;*/
     /*right: 126px;*/
     top: 121px;
     right: 56px;
+    z-index: 100;
 }
 
 .poleTekstowe {
@@ -90,17 +94,6 @@ body {
     line-height: 90px;
 }
 
-#table2Print {
-    background: url('grafika/poletekstowe.png') no-repeat;
-    background-size: 100%;
-    position: absolute;
-    width: 400px;
-    height: 200px;
-    bottom: 68px;
-    left: 397px;
-    display: none;
-}
-
 #dropArea {
     /*background: url('grafika/poletekstowe.png') no-repeat;*/
     background-size: 100%;
@@ -116,13 +109,26 @@ body {
     float: left;
     width: 69px;
     height: 69px;
-    /*border: 2px solid #333;*/
     border-radius: 8px;
     margin: 4px 4px 4px 4px;
     background: transparent;
+    z-index: 10;
 }
 
 .hovered {
     background: rgba(8,164,15,0.15);
     box-shadow: 0 0 50px rgba(8,164,15,0.35);
+}
+
+#trashCan {
+    background: url('grafika/trash-can-icon-61364.png') no-repeat;
+    position: absolute;
+    float: left;
+    border-radius: 8px;
+    margin: 4px 4px 4px 4px;
+    width: 69px;
+    height: 69px;
+    background-size: 100%;
+    z-index: 10;
+
 }
