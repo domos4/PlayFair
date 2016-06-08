@@ -130,5 +130,30 @@ body {
     height: 69px;
     background-size: 100%;
     z-index: 10;
-
 }
+
+div#chatlist {
+    position: absolute;
+    height: 320px;
+    width: 250px;
+    left: 120px;
+    top: 130px;
+    color: #240005;
+}
+div.mousescroll {
+    overflow: hidden;
+}
+div.mousescroll:hover {
+    overflow-y: scroll;
+}
+ul {
+    list-style-type: none;
+}
+.slimScrollDiv { border: 1px solid #ccc; margin:10px; }
+
+
+​.​tooltip {
+    display: none;
+    border: 1px solid #240005;
+    width: 150px;
+}​
