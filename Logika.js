@@ -392,10 +392,14 @@ function resetuj() {
     $('#szyfrogram').text('');
     setDropSlotsFree();
     $('.dropSlot').css('background', 'transparent');
+    glow = {
+        red: [],
+        green: []
+    };
 }
 
 function koniec() {
-    drukuj('koniec gry');
+    drukuj('Otrzymujesz ' + punkty + ' punktów. Gratulacje!');
 }
 
 function pokolorujKlocki() {
@@ -415,52 +419,67 @@ function zablokujKlocki() {
 }
 
 function drukuj(string) {
-    console.log(string);
+    $("#chatlist").append("<span>" + string + "</span>");
 }
 
 function dzwignia() {
-    if (k == 0) {
-        if (zakodowanaWiadomosc !== undefined)
-            return;
-        generateRandomKlucz();
-        generateRandomWiadomosc();
-        if (runda < 3) {
-            $('#wiadomosc').text(wylosowanaWiadomosc);
+    switch (k) {
+        case 0:
+        {
+            drukuj('Ułóż klocki według klucza i pociągnij za dźwignię.');
+            generateRandomKlucz();
+            generateRandomWiadomosc();
             encodeAll();
-        }
-        else {
-            encodeAll();
-            $('#szyfrogram').text(zakodowanaWiadomosc);
-        }
-        ++k;
-    }
-    else if (k == 1) {
-        if (!checkTable())
-            drukuj('zła tablica');
-        else {
-            freeze();
-            if (runda < 3)
-                $('#wiadomosc').text(wylosowanaWiadomosc);
             ++k;
         }
-    }
-    else if (k == 2) {
-        if (sprawdzSzyfrogram()) {
-            drukuj('dobrze ułożone klocki');
-            punkty++;
+            break;
+        case 1:
+        {
+            if (!checkTable())
+                drukuj('Źle ułożone klocki. Ułóż ponownie i pociągnij za dźwignię.');
+            else {
+                freeze();
+                if (runda < 3) {
+                    $('#wiadomosc').text(wylosowanaWiadomosc);
+                    drukuj('Przeciągnij klocki, aby zaszyfrować wiadomość i pociągnij za dźwignię.')
+                }
+                else {
+                    $('#szyfrogram').text(zakodowanaWiadomosc);
+                    drukuj('Przeciągnij klocki, aby odszyfrować wiadomość i pociągnij za dźwignię.')
+                }
+                ++k;
+            }
         }
-        else
-            drukuj('źle ułożone klocki');
-        zablokujKlocki();
-        pokolorujKlocki();
-        ++k;
-    }
-    else if (k == 3) {
-        resetuj();
-        if (runda < 5)
-            dzwignia(k);
-        else
-            koniec();
+            break;
+        case 2:
+        {
+            zablokujKlocki();
+            pokolorujKlocki();
+            if (sprawdzSzyfrogram()) {
+                drukuj('Bardzo dobrze!');
+                punkty++;
+            }
+            else
+                drukuj('Niestety, pomyłka.');
+            if (runda < 5)
+                drukuj('Pociągnij za dźwignię, aby przejść do następnej rundy.');
+            else
+                drukuj('Pociągnij za dźwignię, aby podliczyć punkty.');
+            ++k;
+        }
+            break;
+        case 3:
+        {
+            resetuj();
+            if (runda < 5)
+                dzwignia();
+            else
+                koniec();
+        }
+            break;
+        default:
+        {
+        }
     }
 }
 

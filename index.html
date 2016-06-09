@@ -32,7 +32,7 @@
     <div class="poleTekstowe" id="szyfrogram"></div>
     <div id="dropArea"></div>
     <div id="chatlist" class="mousescroll">
-        <span id="pergamin">Witaj! Aby rozpocząć, pociągnij dźwignię.</span>
+        <span id="pergamin">Aby rozpocząć, pociągnij dźwignię.</span>
     </div>
     <!--<div class="tooltip" id="kluczOpis">To jest klucz</div>-->
     <!--<div class="tooltip" id="wiadomoscOpis">To jest wiadomosc do zaszyfrowania</div>-->
@@ -76,8 +76,9 @@
 
         });
 
-        initDraggable();
         createDropSlots();
+//        initDraggable();
+        $(window).load(initDraggable);
 
         var move = 97;
         $('#przycisk').click(function () {

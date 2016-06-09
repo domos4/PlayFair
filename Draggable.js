@@ -70,7 +70,7 @@
             resize();
 
             for (var i = 0; i < numTiles; i++) {
-                createTile(i);
+                $(document).load(createTile(i));
             }
         }
     }

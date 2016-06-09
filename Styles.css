@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    background-color:  #240005;
+    background-color: #240005;
 }
 
 #gameFrame {
@@ -14,8 +14,8 @@ body {
     position: relative;
     height: 927px;
     width: 1000px;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .list {
@@ -87,6 +87,7 @@ body {
     text-align: center;
     line-height: 90px;
 }
+
 #szyfrogram {
     background-size: 100%;
     bottom: 96px;
@@ -105,7 +106,6 @@ body {
     left: 425px;
 }
 
-
 .dropSlot {
     float: left;
     width: 69px;
@@ -117,8 +117,8 @@ body {
 }
 
 .hovered {
-    background: rgba(8,164,15,0.15);
-    box-shadow: 0 0 50px rgba(8,164,15,0.35);
+    background: rgba(8, 164, 15, 0.15);
+    box-shadow: 0 0 50px rgba(8, 164, 15, 0.35);
 }
 
 #trashCan {
@@ -138,26 +138,38 @@ div#chatlist {
     height: 320px;
     width: 250px;
     left: 120px;
-    top: 130px;
+    top: 145px;
     color: #240005;
 }
+
 div.mousescroll {
     overflow: hidden;
 }
+
 div.mousescroll:hover {
     overflow-y: scroll;
 }
+
 ul {
     list-style-type: none;
 }
-.slimScrollDiv { border: 1px solid #ccc; margin:10px; }
 
+.slimScrollDiv {
+    border: 1px solid #ccc;
+    margin: 10px;
+}
 
 ​.​tooltip {
     display: none;
     border: 1px solid #240005;
     width: 150px;
-}​
- #kluczOpis {
-     display: none;
- }
+}
+
+​
+#kluczOpis {
+    display: none;
+}
+
+span {
+    display: block;
+}
