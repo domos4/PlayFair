@@ -137,6 +137,9 @@ function setDropSlotsFree() {
             tile: null
         });
     });
+    $('.dropSlot').css('background', 'transparent');
+    // $('.dropSlot').droppable('option', 'hoverClass', 'hovered');
+    // $('.hovered').css('background', 'rgba(8, 164, 15, 0.15)');
     positions = [];
 }
 

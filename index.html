@@ -34,9 +34,15 @@
     <div id="chatlist" class="mousescroll">
         <span id="pergamin">Pociągnij dźwignię, aby rozpocząć.</span>
     </div>
-    <div class="tooltip" id="kluczOpis">To jest klucz</div>
-    <div class="tooltip" id="wiadomoscOpis">To jest wiadomosc do zaszyfrowania</div>
-    <div class="tooltip" id="szyfrogramOpis">To jest wiadomosc do odszyfrowania</div>
+    <div class="tooltip" id="kluczOpis">klucz</div>
+    <div class="tooltip" id="wiadomoscOpis">
+        <span>wiadomosc do </span>
+        <span>zaszyfrowania</span>
+    </div>
+    <div class="tooltip" id="szyfrogramOpis">
+        <span>wiadomosc do </span>
+        <span>odszyfrowania</span>
+    </div>
 </div>
 
 
@@ -73,6 +79,9 @@
 
         });
 
+        tooltip('klucz');
+        tooltip('wiadomosc');
+        tooltip('szyfrogram');
         createDropSlots();
         $(window).load(initDraggable);
 
@@ -106,32 +115,6 @@
             });
             move = -move;
         });
-
-        $(".tooltip").hide();
-
-        $("#klucz").hover(
-            function (e) {
-                $("#kluczOpis").show();
-            },
-            function (e) {
-                $("#kluczOpis").hide();
-            });
-
-        $("#wiadomosc").hover(
-            function (e) {
-                $("#wiadomoscOpis").show();
-            },
-            function (e) {
-                $("#wiadomoscOpis").hide();
-            });
-
-        $("#szyfrogram").hover(
-            function (e) {
-                $("#szyfrogramOpis").show();
-            },
-            function (e) {
-                $("#szyfrogramOpis").hide();
-            });
     });
 
 </script>

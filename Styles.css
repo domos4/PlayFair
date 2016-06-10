@@ -119,6 +119,7 @@ body {
 .hovered {
     background: rgba(8, 164, 15, 0.15);
     box-shadow: 0 0 50px rgba(8, 164, 15, 0.35);
+    /*z-index: 15;*/
 }
 
 #trashCan {
@@ -133,6 +134,26 @@ body {
     z-index: 10;
 }
 
+/*.toolip {*/
+/*position: absolute !important;*/
+/*display: none !important;*/
+/*}*/
+
+#kluczOpis {
+    position: absolute;
+    display: none;
+}
+
+#wiadomoscOpis {
+    position: absolute;
+    display: none;
+}
+
+#szyfrogramOpis {
+    position: absolute;
+    display: none;
+}
+
 div#chatlist {
     position: absolute;
     height: 320px;
@@ -140,6 +161,7 @@ div#chatlist {
     left: 120px;
     top: 145px;
     color: #240005;
+    font-size: 20px;
 }
 
 div.mousescroll {
@@ -159,11 +181,7 @@ ul {
     margin: 10px;
 }
 
-​.​tooltip {
-    border: 1px solid #240005;
-    width: 150px;
-}
-
 span {
     display: block;
+    margin-bottom: 10px;
 }

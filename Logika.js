@@ -391,7 +391,6 @@ function resetuj() {
     $('#wiadomosc').text('');
     $('#szyfrogram').text('');
     setDropSlotsFree();
-    $('.dropSlot').css('background', 'transparent');
     glow = {
         red: [],
         green: []
@@ -416,6 +415,39 @@ function pokolorujKlocki() {
 function zablokujKlocki() {
     $(".tileFreeze").draggable('option', 'disabled', true);
     $(".tileFreeze").css('cursor', 'auto');
+}
+
+function tooltip(s) {
+    switch (s) {
+        case 'klucz':
+        {
+            var offset = 0;
+        }
+            break;
+        case 'wiadomosc':
+        {
+            var offset = 50;
+        }
+            break;
+        case 'szyfrogram':
+        {
+            var offset = 100;
+        }
+            break;
+        default:
+        {
+        }
+    }
+    var id = '#' + s;
+    var idOpis = id + 'Opis';
+    $(id).mousemove(function (event) {
+        var left = event.pageX - $(this).offset().left + 100;
+        var top = event.pageY - $(this).offset().top + 550 + offset;
+        $(idOpis).css({top: top, left: left}).show();
+    });
+    $(id).mouseout(function () {
+        $(idOpis).hide();
+    });
 }
 
 function drukuj(string) {
@@ -453,8 +485,6 @@ function dzwignia() {
             break;
         case 2:
         {
-            zablokujKlocki();
-            pokolorujKlocki();
             if (sprawdzSzyfrogram()) {
                 drukuj('Bardzo dobrze!');
                 punkty++;
@@ -465,6 +495,8 @@ function dzwignia() {
                 drukuj('Pociągnij za dźwignię, aby przejść do następnej rundy.');
             else
                 drukuj('Pociągnij za dźwignię, aby podliczyć punkty.');
+            zablokujKlocki();
+            pokolorujKlocki();
             ++k;
         }
             break;
