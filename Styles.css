@@ -187,9 +187,6 @@ span {
     display: block;
 }
 
-span#chatlist {
+#chatlist span {
     margin-bottom: 10px;
-}
-
-span.tooltip {
 }

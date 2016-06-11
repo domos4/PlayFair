@@ -23,9 +23,9 @@
 <div id="gameFrame">
     <div class="list" id="list"></div>
     <div class="list" id="list2"></div>
-    <button class="button" id="button1">BUTTON1</button>
-    <button class="button" id="button2">BUTTON2</button>
-    <button class="button" id="button3">BUTTON3</button>
+    <!--<button class="button" id="button1">BUTTON1</button>-->
+    <!--<button class="button" id="button2">BUTTON2</button>-->
+    <!--<button class="button" id="button3">BUTTON3</button>-->
     <div id="dzwignia"></div>
     <div id="przycisk"></div>
     <div class="poleTekstowe" id="klucz"></div>
@@ -84,38 +84,19 @@
         tooltip('szyfrogram');
         createDropSlots();
         $(window).load(initDraggable);
-//        initDraggable();
 
-        var move = 97;
+
+        var clickDisabled = false;
         $('#przycisk').click(function () {
-            $(this).animate({
-                top: "+=" + move
-            }, {
-                duration: 1000,
-                start: function () {
-                    $(this).animate({
-                        width: '55px',
-                        height: '55px'
-                    }, {
-                        duration: 500,
-                        queue: false,
-                        complete: function () {
-                            $(this).animate({
-                                width: '51px',
-                                height: '51px'
-                            }, {
-                                duration: 500,
-                                queue: false
-                            });
-                        }
-                    });
-                },
-                complete: function () {
-                    dzwignia();
-                }
-            });
-            move = -move;
+            if (clickDisabled)
+                return;
+            dzwigniaAnimacja();
+            clickDisabled = true;
+            setTimeout(function () {
+                clickDisabled = false;
+            }, 1000);
         });
+
     });
 
 </script>

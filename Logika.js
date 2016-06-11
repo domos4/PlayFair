@@ -341,27 +341,27 @@ function getSzyfrogramOrder() {
     return myTable;
 }
 
-var listaKluczy = [''];
-// var listaKluczy = ['kot', 'pies', 'krowa', 'okon', 'karp', 'wrobel', 'lew', 'mysz', 'szczur', 'paw'];
+// var listaKluczy = [''];
+var listaKluczy = ['kot', 'pies', 'krowa', 'okon', 'karp', 'wrobel', 'lew', 'mysz', 'szczur', 'paw'];
 function generateRandomKlucz() {    //generuje losowy klucz z listy
     var n = listaKluczy.length;
     var k = Math.floor((Math.random() * n));
     wylosowanyKlucz = listaKluczy[k];
     wylosowanyKlucz = wylosowanyKlucz.toUpperCase();
     $('#klucz').text(wylosowanyKlucz);
-    // listaKluczy.splice(k, 1);    //wyywalam wylosowamy element z listy, żeby nie powtórzały się klucze
+    listaKluczy.splice(k, 1);    //wyywalam wylosowamy element z listy, żeby nie powtórzały się klucze
 }
 
-var listaWiadomosci = [['vw'], ['xy']];
-// var listaWiadomosci = [['dowod', 'euler', 'calka', 'lemat'],
-//     ['archipelag', 'matematyka', 'hipoteza', 'twierdzenie', 'gauss', 'wyspa liczb']];
+// var listaWiadomosci = [['vw'], ['xy']];
+var listaWiadomosci = [['dowod', 'euler', 'calka', 'lemat'],
+    ['archipelag', 'matematyka', 'hipoteza', 'twierdzenie', 'gauss', 'wyspa liczb']];
 function generateRandomWiadomosc() {    //generuje losową wiadomość z listy
     var t = runda % 2 == 1 ? 0 : 1;
     var n = listaWiadomosci[t].length;
     var k = Math.floor((Math.random() * n));
     wylosowanaWiadomosc = listaWiadomosci[t][k];
     wylosowanaWiadomosc = wylosowanaWiadomosc.toUpperCase();
-    // listaWiadomosci[t].splice(k, 1);
+    listaWiadomosci[t].splice(k, 1);
 }
 
 function resetuj() {
@@ -380,6 +380,7 @@ function resetuj() {
     //     }
     // });
     $('.tileFreeze').remove();
+    $('.tile').remove();
     initDraggable();
     k = 0;
     ++runda;
@@ -421,17 +422,17 @@ function tooltip(s) {
     switch (s) {
         case 'klucz':
         {
-            var offset = 0;
+            var offset = 10;
         }
             break;
         case 'wiadomosc':
         {
-            var offset = 50;
+            var offset = 60;
         }
             break;
         case 'szyfrogram':
         {
-            var offset = 100;
+            var offset = 140;
         }
             break;
         default:
@@ -442,7 +443,7 @@ function tooltip(s) {
     var idOpis = id + 'Opis';
     $(id).mousemove(function (event) {
         var left = event.pageX - $(this).offset().left + 100;
-        var top = event.pageY - $(this).offset().top + 550 + offset;
+        var top = event.pageY - $(this).offset().top + 530 + offset;
         $(idOpis).css({top: top, left: left}).show();
     });
     $(id).mouseout(function () {
@@ -452,6 +453,35 @@ function tooltip(s) {
 
 function drukuj(string) {
     $("#chatlist").append("<span>" + string + "</span>");
+}
+
+var move = 97;
+function dzwigniaAnimacja() {
+    $('#przycisk').animate({
+        top: "+=" + move
+    }, {
+        duration: 1000,
+        start: function () {
+            $('#przycisk').animate({
+                width: '55px',
+                height: '55px'
+            }, {
+                duration: 500,
+                queue: false,
+                complete: function () {
+                    $('#przycisk').animate({
+                        width: '51px',
+                        height: '51px'
+                    }, {
+                        duration: 500,
+                        queue: false
+                    });
+                }
+            });
+        },
+        complete: dzwignia
+    });
+    move = -move;
 }
 
 function dzwignia() {
