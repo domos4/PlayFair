@@ -8,11 +8,12 @@
     <script src="lib/jquery-ui-1.11.4/jquery-ui.js"></script>
     <script src="lib/jquery-ui-1.11.4/jquery-ui.min.js"></script>
     <script src="lib/jquery-animate-shadow-min.js"></script>
+    <script src="lib/jquery.slimscroll.min.js"></script>
     <script src='lib/TweenMax-min.js'></script>
     <script src='lib/Draggable-min.js'></script>
 
     <script type="text/javascript" src="Logika.js"></script>
-    <script type="text/javascript" src="TextArea.js"></script>
+    <!--<script type="text/javascript" src="TextArea.js"></script>-->
 
     <link rel="stylesheet" type="text/css" href="Styles.css">
 </head>
@@ -75,7 +76,6 @@
         });
 
         $("#button3").click(function () {
-            $("#wiadomosc").hide();
 
         });
 
@@ -84,6 +84,7 @@
         tooltip('szyfrogram');
         createDropSlots();
         $(window).load(initDraggable);
+//        initDraggable();
 
         var move = 97;
         $('#przycisk').click(function () {

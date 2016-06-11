@@ -349,7 +349,7 @@ function generateRandomKlucz() {    //generuje losowy klucz z listy
     wylosowanyKlucz = listaKluczy[k];
     wylosowanyKlucz = wylosowanyKlucz.toUpperCase();
     $('#klucz').text(wylosowanyKlucz);
-    // listaKluczy.splice(k, 1);
+    // listaKluczy.splice(k, 1);    //wyywalam wylosowamy element z listy, żeby nie powtórzały się klucze
 }
 
 var listaWiadomosci = [['vw'], ['xy']];

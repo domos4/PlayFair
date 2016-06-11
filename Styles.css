@@ -117,7 +117,7 @@ body {
 }
 
 .hovered {
-    background: rgba(8, 164, 15, 0.15);
+    background: rgba(8, 164, 15, 0.15) !important;
     box-shadow: 0 0 50px rgba(8, 164, 15, 0.35);
     /*z-index: 15;*/
 }
@@ -162,6 +162,8 @@ div#chatlist {
     top: 145px;
     color: #240005;
     font-size: 20px;
+    text-align: center;
+    margin-right: 20px;
 }
 
 div.mousescroll {
@@ -183,5 +185,11 @@ ul {
 
 span {
     display: block;
+}
+
+span#chatlist {
     margin-bottom: 10px;
+}
+
+span.tooltip {
 }

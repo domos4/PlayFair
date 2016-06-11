@@ -55,22 +55,24 @@
         colSize = startSize;
 
         window.stop();
-
-        $(".tile").each(function() {
-            Draggable.get(this).kill();
-            this.parentNode.removeChild(this);
-        });
+        //
+        // $(".tile").each(function() {
+        //     Draggable.get(this).kill();
+        //     this.parentNode.removeChild(this);
+        // });
 
         TweenLite.to($list, 0.2, { width: width });
-        TweenLite.delayedCall(0.25, populateBoard);
+        // TweenLite.delayedCall(0.25, populateBoard);
 
+        populateBoard();
         function populateBoard() {
 
             label = 1;
             resize();
 
             for (var i = 0; i < numTiles; i++) {
-                $(document).load(createTile(i));
+                createTile(i);
+
             }
         }
     }
@@ -113,19 +115,17 @@
             k++;
         else if (k > 9)
             k = i + 1;
+
         var colspan = 1;
+
         var image = new Image();
-        image.onload = function () {
-            $list.append(element);
-            layoutInvalidated();
-        };
         image.src = "grafika/plytki/" + String.fromCharCode(65 + k) + ".png";
         var element = $("<div><div/>").addClass("tile").append(image);
         $(element).attr({
             'id': 'tile' + (i + 1)
         });
         var lastX = 0;
-
+        
         Draggable.create(element, {
             onDrag      : onDrag,
             onPress     : onPress,
@@ -154,6 +154,8 @@
 
         // Add tile properties to our element for quick lookup
         element[0].tile = tile;
+        $list.append(element);
+        layoutInvalidated();
 
         // This is moved to the image.onload event
         //$list.append(element);
