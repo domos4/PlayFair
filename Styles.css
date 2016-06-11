@@ -97,12 +97,11 @@ body {
 }
 
 #dropArea {
-    /*background: url('grafika/poletekstowe.png') no-repeat;*/
-    background-size: 100%;
+    /*background:red;*/
     position: absolute;
-    width: 500px;
-    height: 200px;
-    bottom: 85px;
+    width: 462px;
+    height: 154px;
+    bottom: 134px;
     left: 425px;
 }
 
@@ -113,7 +112,6 @@ body {
     border-radius: 8px;
     margin: 4px 4px 4px 4px;
     background: transparent;
-    z-index: 10;
 }
 
 .hovered {
@@ -123,21 +121,10 @@ body {
 }
 
 #trashCan {
-    background: url('grafika/trash-can-icon-61364.png') no-repeat;
+    height: 927px;
+    width: 1000px;
     position: absolute;
-    float: left;
-    border-radius: 8px;
-    margin: 4px 4px 4px 4px;
-    width: 69px;
-    height: 69px;
-    background-size: 100%;
-    z-index: 10;
 }
-
-/*.toolip {*/
-/*position: absolute !important;*/
-/*display: none !important;*/
-/*}*/
 
 #kluczOpis {
     position: absolute;
@@ -190,3 +177,4 @@ span {
 #chatlist span {
     margin-bottom: 10px;
 }
+

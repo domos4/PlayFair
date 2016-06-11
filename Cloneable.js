@@ -19,7 +19,7 @@ function createTileFreeze(i, p) {
     var element = $("<div><div/>").addClass("tileFreeze").attr('id', 'tile' + p + 'Freeze' + (i + 1)).append(image);
     element.data({
         dropSlot: null,
-        index: (i+1),
+        index: (i + 1),
         p: p
     });
 
@@ -53,7 +53,7 @@ function positionTileFreeze(i, p) {
         cursor: 'move',
         helper: 'clone',
         containment: '#gameFrame',
-        stack: '.tileFreeze',
+        stack: '.tileFreeze'
 
     });
     var tileFreeze = $('#tile' + p + 'Freeze' + (i + 1));
@@ -97,8 +97,8 @@ function createDropSlots() {
         }).data({
             tile: null
         }).droppable({
-            accept: '.tileFreeze',
             hoverClass: 'hovered',
+            greedy: true,
             drop: handleTileDrop,
             over: function (event, ui) {
                 ui.draggable.data('out', false);
@@ -108,26 +108,50 @@ function createDropSlots() {
             }
         });
     }
-    // $('<div></div>').appendTo('#dropArea').attr({
-    //     id: 'trashCan'
-    // }).droppable({
-    //     accept: '.tileFreeze',
-    //     drop: tileRemove
-    // });
+    $('#trashCan').droppable({
+        drop: trashDrop
+    });
+    $('#dropArea').droppable({
+        greedy: true,
+        drop: trashDrop
+    });
 }
 
-function tileRemove(event, ui) {
-    if (ui.draggable.data('out')) {
-        var id = ui.draggable.attr('id');
-        var index = '';
-        if (!isNaN(id[id.length - 2]))
-            index += id[id.length - 2];
-        index += id[id.length - 1];
-        var iteration = ui.draggable.data('p');
+function cleanTile(event, ui) {    //sprząta bałagan który zostawił po sobie klocek
+    var id = ui.draggable.attr('id');
+    var index = ui.draggable.data('index');
+    var iteration = ui.draggable.data('p');
+    if (ui.draggable.data('dropSlot') == null)  //jeśli klocek pochodzi z planszy, utwórz kolejny na planszy
         positionTileFreeze(index - 1, iteration + 1);
-        id = '#' + id;
-        $(id).remove();
+    else {  //jeśli nie pochodzi z planszy to pochodzi z dropSlota
+        ui.draggable.data('dropSlot').droppable('option', 'disabled', false);   //odblokowuje dropSlot, z którego pochodzi klocek
+        ui.draggable.data('dropSlot').data('tile', null);  //i ustawia że nie ma do tego dropSlota przypisanego żadnego klocka
     }
+}
+
+function trashDrop(event, ui) {
+    cleanTile(event, ui);
+    var id = '#' + ui.draggable.attr('id');
+    $(id).remove();
+}
+
+function handleTileDrop(event, ui) {
+    ui.draggable.position({of: $(this), my: 'left top', at: 'left top'});   //autocelowanie w dropSlot
+    var id = '#' + ui.draggable.attr('id');
+    var index = ui.draggable.data('index');
+    cleanTile(event, ui);
+    var selector = this;
+    setTimeout(function () {
+        disableDropSlot(selector);
+    }, 5); //wykonywane po 10ms bo inaczej nie działa greedy:true i odpalany jest drop event na parent droppablach
+    ui.draggable.data('dropSlot', $(this)); //przypisuje dropSlot do klocka
+    $(this).data('tile', index);    //przypisuje klocek do dropSlota
+    $(id).draggable('option', 'helper', 'original');
+    $(this).data('tileID', id);    //przypisuje id klocka do dropSlota
+}
+
+function disableDropSlot(selector) {
+    $(selector).droppable('option', 'disabled', true);   //wyłącza możliwość dropowania klocków
 }
 
 function setDropSlotsFree() {
@@ -138,26 +162,5 @@ function setDropSlotsFree() {
         });
     });
     $('.dropSlot').css('background', 'transparent');
-    // $('.dropSlot').droppable('option', 'hoverClass', 'hovered');
-    // $('.hovered').css('background', 'rgba(8, 164, 15, 0.15)');
     positions = [];
-}
-
-function handleTileDrop(event, ui) {
-    ui.draggable.position({of: $(this), my: 'left top', at: 'left top'});   //autocelowanie w dropSlot
-    var id = ui.draggable.attr('id');
-    var index = ui.draggable.data('index');
-    var iteration = ui.draggable.data('p');
-    if (ui.draggable.data('dropSlot') == null)  //jeśli klocek pochodzi z planszy, utwórz kolejny na planszy
-        positionTileFreeze(index - 1, iteration + 1);
-    else {  //jeśli nie pochodzi z planszy to pochodzi z dropSlota
-        ui.draggable.data('dropSlot').droppable('option', 'disabled', false);   //odblokowuje dropSlot, z którego pochodzi klocek
-        ui.draggable.data('dropSlot').data('tile', null);  //i ustawia że nie ma do tego dropSlota przypisanego żadnego klocka
-    }
-    $(this).droppable('disable');   //wyłącza możliwość dropowania klocków
-    ui.draggable.data('dropSlot', $(this)); //przypisuje dropSlot do klocka
-    $(this).data('tile', index);    //przypisuje klocek do dropSlota
-    id = '#' + id;
-    $(id).draggable('option', 'helper', 'original');
-    $(this).data('tileID', id);    //przypisuje id klocka do dropSlota
 }

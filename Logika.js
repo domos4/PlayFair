@@ -341,27 +341,27 @@ function getSzyfrogramOrder() {
     return myTable;
 }
 
-// var listaKluczy = [''];
-var listaKluczy = ['kot', 'pies', 'krowa', 'okon', 'karp', 'wrobel', 'lew', 'mysz', 'szczur', 'paw'];
+var listaKluczy = [''];
+// var listaKluczy = ['kot', 'pies', 'krowa', 'okon', 'karp', 'wrobel', 'lew', 'mysz', 'szczur', 'paw'];
 function generateRandomKlucz() {    //generuje losowy klucz z listy
     var n = listaKluczy.length;
     var k = Math.floor((Math.random() * n));
     wylosowanyKlucz = listaKluczy[k];
     wylosowanyKlucz = wylosowanyKlucz.toUpperCase();
     $('#klucz').text(wylosowanyKlucz);
-    listaKluczy.splice(k, 1);    //wyywalam wylosowamy element z listy, żeby nie powtórzały się klucze
+    // listaKluczy.splice(k, 1);    //wyywalam wylosowamy element z listy, żeby nie powtórzały się klucze
 }
 
-// var listaWiadomosci = [['vw'], ['xy']];
-var listaWiadomosci = [['dowod', 'euler', 'calka', 'lemat'],
-    ['archipelag', 'matematyka', 'hipoteza', 'twierdzenie', 'gauss', 'wyspa liczb']];
+var listaWiadomosci = [['vw'], ['xy']];
+// var listaWiadomosci = [['dowod', 'euler', 'calka', 'lemat'],
+//     ['archipelag', 'matematyka', 'hipoteza', 'twierdzenie', 'gauss', 'wyspa liczb']];
 function generateRandomWiadomosc() {    //generuje losową wiadomość z listy
     var t = runda % 2 == 1 ? 0 : 1;
     var n = listaWiadomosci[t].length;
     var k = Math.floor((Math.random() * n));
     wylosowanaWiadomosc = listaWiadomosci[t][k];
     wylosowanaWiadomosc = wylosowanaWiadomosc.toUpperCase();
-    listaWiadomosci[t].splice(k, 1);
+    // listaWiadomosci[t].splice(k, 1);
 }
 
 function resetuj() {
