@@ -44,8 +44,6 @@ body {
     position: absolute;
     width: 76px;
     height: 129px;
-    /*bottom: 142px;*/
-    /*right: 112px;*/
     top: 127px;
     right: 44px;
 }
@@ -57,8 +55,6 @@ body {
     width: 51px;
     height: 51px;
     cursor: pointer;
-    /*top: 645px;*/
-    /*right: 126px;*/
     top: 121px;
     right: 56px;
     z-index: 100;
@@ -70,6 +66,7 @@ body {
     width: 300px;
     height: 100px;
     cursor: help;
+    z-index: 1;
 }
 
 #klucz {
@@ -97,7 +94,6 @@ body {
 }
 
 #dropArea {
-    /*background:red;*/
     position: absolute;
     width: 462px;
     height: 154px;
@@ -117,7 +113,6 @@ body {
 .hovered {
     background: rgba(8, 164, 15, 0.15) !important;
     box-shadow: 0 0 50px rgba(8, 164, 15, 0.35);
-    /*z-index: 15;*/
 }
 
 #trashCan {
@@ -129,19 +124,22 @@ body {
 #kluczOpis {
     position: absolute;
     display: none;
+    z-index: 2;
 }
 
 #wiadomoscOpis {
     position: absolute;
     display: none;
+    z-index: 2;
 }
 
 #szyfrogramOpis {
     position: absolute;
     display: none;
+    z-index: 2;
 }
 
-div#chatlist {
+#pergamin {
     position: absolute;
     height: 320px;
     width: 250px;
@@ -150,31 +148,15 @@ div#chatlist {
     color: #240005;
     font-size: 20px;
     text-align: center;
-    margin-right: 20px;
-}
-
-div.mousescroll {
-    overflow: hidden;
-}
-
-div.mousescroll:hover {
-    overflow-y: scroll;
-}
-
-ul {
-    list-style-type: none;
-}
-
-.slimScrollDiv {
-    border: 1px solid #ccc;
-    margin: 10px;
+    /*margin-right: 20px;*/
+    overflow: auto;
 }
 
 span {
     display: block;
 }
 
-#chatlist span {
+#pergamin span {
     margin-bottom: 10px;
 }
 

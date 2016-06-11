@@ -341,27 +341,25 @@ function getSzyfrogramOrder() {
     return myTable;
 }
 
-var listaKluczy = [''];
-// var listaKluczy = ['kot', 'pies', 'krowa', 'okon', 'karp', 'wrobel', 'lew', 'mysz', 'szczur', 'paw'];
+var listaKluczy = ['kot', 'pies', 'krowa', 'okon', 'karp', 'wrobel', 'lew', 'mysz', 'szczur', 'paw'];
 function generateRandomKlucz() {    //generuje losowy klucz z listy
     var n = listaKluczy.length;
     var k = Math.floor((Math.random() * n));
     wylosowanyKlucz = listaKluczy[k];
     wylosowanyKlucz = wylosowanyKlucz.toUpperCase();
     $('#klucz').text(wylosowanyKlucz);
-    // listaKluczy.splice(k, 1);    //wyywalam wylosowamy element z listy, żeby nie powtórzały się klucze
+    listaKluczy.splice(k, 1);    //wyywalam wylosowamy element z listy, żeby nie powtórzały się klucze
 }
 
-var listaWiadomosci = [['vw'], ['xy']];
-// var listaWiadomosci = [['dowod', 'euler', 'calka', 'lemat'],
-//     ['archipelag', 'matematyka', 'hipoteza', 'twierdzenie', 'gauss', 'wyspa liczb']];
+var listaWiadomosci = [['dowod', 'euler', 'calka', 'lemat'],
+    ['archipelag', 'matematyka', 'hipoteza', 'twierdzenie', 'gauss', 'wyspa liczb']];
 function generateRandomWiadomosc() {    //generuje losową wiadomość z listy
     var t = runda % 2 == 1 ? 0 : 1;
     var n = listaWiadomosci[t].length;
     var k = Math.floor((Math.random() * n));
     wylosowanaWiadomosc = listaWiadomosci[t][k];
     wylosowanaWiadomosc = wylosowanaWiadomosc.toUpperCase();
-    // listaWiadomosci[t].splice(k, 1);
+    listaWiadomosci[t].splice(k, 1);
 }
 
 function resetuj() {
@@ -399,7 +397,7 @@ function resetuj() {
 }
 
 function koniec() {
-    drukuj('Otrzymujesz ' + punkty + ' punktów. Gratulacje!');
+    drukuj('Otrzymujesz ' + punkty + '/100' + ' punktów. Gratulacje!');
 }
 
 function pokolorujKlocki() {
@@ -419,25 +417,17 @@ function zablokujKlocki() {
 }
 
 function tooltip(s) {
+    var offset;
     switch (s) {
         case 'klucz':
-        {
-            var offset = 10;
-        }
+            offset = 10;
             break;
         case 'wiadomosc':
-        {
-            var offset = 60;
-        }
+            offset = 60;
             break;
         case 'szyfrogram':
-        {
-            var offset = 140;
-        }
+            offset = 140;
             break;
-        default:
-        {
-        }
     }
     var id = '#' + s;
     var idOpis = id + 'Opis';
@@ -452,7 +442,13 @@ function tooltip(s) {
 }
 
 function drukuj(string) {
-    $("#chatlist").append("<span>" + string + "</span>");
+    var pergamin = $("#pergamin");
+    pergamin.append("<span>" + string + "</span>");
+    var height = pergamin[0].scrollHeight - 320;
+    var offset = pergamin[0].scrollHeight - pergamin.scrollTop();
+    pergamin.animate({
+        scrollTop: height
+    }, offset * 2);
 }
 
 var move = 97;
@@ -485,82 +481,81 @@ function dzwigniaAnimacja() {
 }
 
 function dzwignia() {
-    switch (k) {
-        case 0:
-        {
-            drukuj('Ułóż klocki według klucza i pociągnij za dźwignię.');
-            generateRandomKlucz();
-            generateRandomWiadomosc();
-            encodeAll();
-            ++k;
-        }
-            break;
-        case 1:
-        {
-            if (!checkTable())
-                drukuj('Źle ułożone klocki. Ułóż ponownie i pociągnij za dźwignię.');
-            else {
-                freeze();
+    if (runda < 5) {
+        switch (k) {
+            case 0:
+            {
+                drukuj('Ułóż klocki według klucza i pociągnij za dźwignię.');
+                generateRandomKlucz();
+                generateRandomWiadomosc();
                 if (runda < 3) {
                     $('#wiadomosc').text(wylosowanaWiadomosc);
-                    drukuj('Przeciągnij klocki, aby zaszyfrować wiadomość i pociągnij za dźwignię.')
+                    encodeAll();
                 }
                 else {
+                    encodeAll();
                     $('#szyfrogram').text(zakodowanaWiadomosc);
-                    drukuj('Przeciągnij klocki, aby odszyfrować wiadomość i pociągnij za dźwignię.')
                 }
                 ++k;
             }
-        }
-            break;
-        case 2:
-        {
-            if (sprawdzSzyfrogram()) {
-                drukuj('Bardzo dobrze!');
-                punkty++;
+                break;
+            case 1:
+            {
+                if (!checkTable())
+                    drukuj('Źle ułożone klocki. Ułóż ponownie i pociągnij za dźwignię.');
+                else {
+                    freeze();
+                    if (runda < 3) {
+                        $('#wiadomosc').text(wylosowanaWiadomosc);
+                        drukuj('Przeciągnij klocki, aby zaszyfrować wiadomość i pociągnij za dźwignię.')
+                    }
+                    else {
+                        $('#szyfrogram').text(zakodowanaWiadomosc);
+                        drukuj('Przeciągnij klocki, aby odszyfrować wiadomość i pociągnij za dźwignię.')
+                    }
+                    ++k;
+                }
             }
-            else
-                drukuj('Niestety, pomyłka.');
-            if (runda < 5)
-                drukuj('Pociągnij za dźwignię, aby przejść do następnej rundy.');
-            else
-                drukuj('Pociągnij za dźwignię, aby podliczyć punkty.');
-            zablokujKlocki();
-            pokolorujKlocki();
-            ++k;
-        }
-            break;
-        case 3:
-        {
-            resetuj();
-            if (runda < 5)
-                dzwignia();
-            else
-                koniec();
-        }
-            break;
-        default:
-        {
+                break;
+            case 2:
+            {
+                if (sprawdzSzyfrogram()) {
+                    drukuj('Bardzo dobrze!');
+                    switch (runda) {
+                        case 1:
+                            punkty += 10;
+                            break;
+                        case 2:
+                            punkty += 20;
+                            break;
+                        case 3:
+                            punkty += 30;
+                            break;
+                        case 4:
+                            punkty += 40;
+                            break;
+                    }
+                }
+                else
+                    drukuj('Niestety, pomyłka.');
+                if (runda < 4)
+                    drukuj('Pociągnij za dźwignię, aby przejść do następnej rundy.');
+                else
+                    drukuj('Pociągnij za dźwignię, aby podliczyć punkty.');
+                zablokujKlocki();
+                pokolorujKlocki();
+                ++k;
+            }
+                break;
+            case 3:
+            {
+                resetuj();
+                if (runda < 5)
+                    dzwignia();
+                else
+                    koniec();
+            }
+                break;
         }
     }
 }
-
-/*
-
- 1. losujemy klucz i wiadomość z klasy pierwszej - łatwej
- 2. użytkownik ustawia kafle i ciągnie dźwignię
- 3. kafle zamarzają, można je teraz przeciągać do dropArea
- 4. użytkownik uskłąda szyfrogram i pociąga dźwignię
- 5. kafle w dropArea podświetlają się na zielono lub czerwono i
- losowana jest kolejna para klucz-wiadomość, tym razem z klasy drugiej - trudnej
- 6. itd
- 7. do samo tylko dwa szyfrogramy do odkodowania
- 8. na koniec podliczane są punkty za te cztery rzeczy.
-
- */
-/*
-
- wiadomość i klucz najpierw pokazują się normalnie ze spacjami i tak dalej a potem dopiero jak już trzeba kodować to WYSPALOGIKIX
-
- */
-

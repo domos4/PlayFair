@@ -8,12 +8,11 @@
     <script src="lib/jquery-ui-1.11.4/jquery-ui.js"></script>
     <script src="lib/jquery-ui-1.11.4/jquery-ui.min.js"></script>
     <script src="lib/jquery-animate-shadow-min.js"></script>
-    <script src="lib/jquery.slimscroll.min.js"></script>
     <script src='lib/TweenMax-min.js'></script>
     <script src='lib/Draggable-min.js'></script>
+    <script src="lib/jquery.nicescroll.min.js"></script>
 
     <script type="text/javascript" src="Logika.js"></script>
-    <!--<script type="text/javascript" src="TextArea.js"></script>-->
 
     <link rel="stylesheet" type="text/css" href="Styles.css">
 </head>
@@ -23,9 +22,6 @@
 <div id="gameFrame">
     <div class="list" id="list"></div>
     <div class="list" id="list2"></div>
-    <button class="button" id="button1">BUTTON1</button>
-    <button class="button" id="button2">BUTTON2</button>
-    <button class="button" id="button3">BUTTON3</button>
     <div id="dzwignia"></div>
     <div id="przycisk"></div>
     <div class="poleTekstowe" id="klucz"></div>
@@ -34,8 +30,8 @@
     <div id="trashCan">
         <div id="dropArea"></div>
     </div>
-    <div id="chatlist" class="mousescroll">
-        <span id="pergamin">Pociągnij dźwignię, aby rozpocząć.</span>
+    <div id="pergamin">
+        <span>Pociągnij dźwignię, aby rozpocząć.</span>
     </div>
     <div class="tooltip" id="kluczOpis">klucz</div>
     <div class="tooltip" id="wiadomoscOpis">
@@ -48,37 +44,16 @@
     </div>
 </div>
 
-
-<!--<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>-->
-<!--<script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js'></script>-->
-<!--<script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/utils/Draggable.min.js'></script>-->
 <script type="text/javascript" src="Draggable.js"></script>
 <script type="text/javascript" src="Cloneable.js"></script>
 
-
 <script type="text/javascript">
     $(document).ready(function () {
-
-        $("#button1").click(function () {
-            console.log('k: ' + k, 'runda: ' + runda);
-            console.log('wylosowanaWiadomosc: ' + wylosowanaWiadomosc);
-            console.log('wylosowanyKlucz: ' + wylosowanyKlucz);
-            console.log('tablica: ' + tablica);
-            console.log('zakodowanaWiadomosc: ' + zakodowanaWiadomosc);
-            console.log('getSzyfrogramOrder(): ' + getSzyfrogramOrder());
-            console.log('glow red: ' + glow.red);
-            console.log('glow green: ' + glow.green);
-            console.log('lista kluczy: ' + listaKluczy);
-            console.log('lista wiadomosci: ' + listaWiadomosci);
-        });
-
-        $("#button2").click(function () {
-            resetuj();
-            runda--;
-        });
-
-        $("#button3").click(function () {
-
+        $('#pergamin').niceScroll({
+            cursorcolor: '#380d07',
+            cursorborder: '0px',
+            cursorfixedheight: 85,
+            cursoropacitymax: '0'
         });
 
         tooltip('klucz');
@@ -86,7 +61,6 @@
         tooltip('szyfrogram');
         createDropSlots();
         $(window).load(initDraggable);
-
 
         var clickDisabled = false;
         $('#przycisk').click(function () {
@@ -96,7 +70,7 @@
             clickDisabled = true;
             setTimeout(function () {
                 clickDisabled = false;
-            }, 1000);
+            }, 900);
         });
 
     });
