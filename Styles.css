@@ -141,10 +141,10 @@ body {
 
 #pergamin {
     position: absolute;
-    height: 320px;
+    height: 330px;
     width: 250px;
     left: 120px;
-    top: 145px;
+    top: 135px;
     color: #240005;
     font-size: 20px;
     text-align: center;
@@ -160,3 +160,24 @@ span {
     margin-bottom: 10px;
 }
 
+#firstSpan {
+    margin-top: 15px;
+}
+
+#textfadetop {
+    background: url("grafika/textfadetop.png");
+    width: 285px;
+    height: 63px;
+    position: absolute;
+    top: 101px;
+    left: 101px;
+}
+
+#textfadebottom {
+    background: url("grafika/textfadebottom.png");
+    width: 288px;
+    height: 60px;
+    position: absolute;
+    top: 450px;
+    left: 101px;
+}
